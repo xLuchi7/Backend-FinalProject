@@ -15,6 +15,14 @@ productsRouter.get('/products', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
+productsRouter.get('/products/:pid', async (req, res, next) => { 
+    try {
+        const product = await productsManager.getProductById(req.params.pid);
+        res.json(product);
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+})
 productsRouter.post('/products', async (req, res, next) => { 
     try {
         const product = new Product({
@@ -58,15 +66,6 @@ productsRouter.delete('/products/:pid', async (req, res, next) => {
     try {
         const borrado = await productsManager.borrarProductoPorId(req.params.pid)
         res.json(borrado)
-    } catch (error) {
-        res.status(404).json({ message: error.message })
-    }
-})
-
-productsRouter.get('/products/:pid', async (req, res, next) => { 
-    try {
-        const product = await productsManager.getProductById(req.params.pid);
-        res.json(product);
     } catch (error) {
         res.status(404).json({ message: error.message })
     }

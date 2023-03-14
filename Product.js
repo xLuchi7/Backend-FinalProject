@@ -1,6 +1,6 @@
 export class Product{
 
-    constructor(title, description, price, thumbnail, code, stock, id ) {
+    constructor({title, description, price, thumbnail, code, stock, id}) {
 
         this.title = title;
 

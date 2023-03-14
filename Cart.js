@@ -1,6 +1,6 @@
 export class Cart{
 
-    constructor(id, products) {
+    constructor({id, products}) {
 
         this.id = id;
 

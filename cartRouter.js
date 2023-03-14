@@ -33,20 +33,3 @@ cartRouter.post('/cart/:cid/product/:pid', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }  
 })
-
-cartRouter.delete('/cart', async (req, res, next) => { 
-    try {
-        
-    } catch (error) {
-        
-    }  
-})
-
-// cartRouter.get('/cart', async (req, res, next) => { 
-//     try {
-//         const ver = await cartManager.verCarrito()
-//         res.json(ver);
-//     } catch (error) {
-        
-//     } 
-// })

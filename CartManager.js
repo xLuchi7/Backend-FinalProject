@@ -43,9 +43,7 @@ export class CartManager{
     async getProducts(id){
         await this.#leerCarrito();
         const carrito = this.#carts.find((cart) => cart.id === id);
-        //const products = this.#carts.splice(1, 1)
         return carrito.products
-        //return products
     }
 
     async verCarrito(){
