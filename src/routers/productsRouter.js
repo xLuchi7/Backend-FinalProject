@@ -1,7 +1,8 @@
 import express, { Router } from 'express';
-import { ProductManager } from './ProductManager.js';
-import { Product } from './Product.js';
+import { ProductManager } from '../dao/ProductManager.js';
+import { Product } from '../Product.js';
 import { randomUUID } from 'crypto';
+import { ProductMongooseManager } from '../dao/ProductMongooseManager.js';
 
 export const productsRouter = Router();
 
@@ -9,7 +10,7 @@ const productsManager = new ProductManager('./database/products.json');
 
 productsRouter.get('/products', async (req, res, next) => { 
     try {
-        const cantProducts = await productsManager.getCantProducts(req.query.limit);
+        const cantProducts = await ProductMongooseManager.getCantProducts(req.query.limit);
         res.json(cantProducts);
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -17,7 +18,7 @@ productsRouter.get('/products', async (req, res, next) => {
 })
 productsRouter.get('/products/:pid', async (req, res, next) => { 
     try {
-        const product = await productsManager.getProductById(req.params.pid);
+        const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);
         res.json(product);
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -34,7 +35,7 @@ productsRouter.post('/products', async (req, res, next) => {
             stock: "14",
             id: randomUUID()
         })
-        const agregado = await productsManager.guardarProducto(product)
+        const agregado = await ProductMongooseManager.guardar(product)
         res.json(agregado)
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -56,7 +57,7 @@ productsRouter.put('/products/:pid', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
     try {
-        const productoReemplazado = await productsManager.reemplzarProducto(req.params.pid, productoNuevo)
+        const productoReemplazado = await ProductMongooseManager.reemplzarProducto(req.params.pid, productoNuevo)
         res.json(productoReemplazado);
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -64,7 +65,7 @@ productsRouter.put('/products/:pid', async (req, res, next) => {
 })
 productsRouter.delete('/products/:pid', async (req, res, next) => { 
     try {
-        const borrado = await productsManager.borrarProductoPorId(req.params.pid)
+        const borrado = await ProductMongooseManager.borrarProductoPorId(req.params.pid)
         res.json(borrado)
     } catch (error) {
         res.status(404).json({ message: error.message })

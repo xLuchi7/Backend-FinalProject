@@ -1,0 +1,20 @@
+<h1>PRODUCTOS: </h1>
+<div id="products"></div>
+{{#if hayArray}}
+<ul>
+    {{#each array}}
+    <li>{{this.title}}: $ {{this.price}}</li>
+    {{/each}}
+</ul>
+{{else}}
+array vacio...
+{{/if}}
+{{#if hasPrevPage}}
+<a href="/?limit={{limit}}&page={{prevPage}}&sort={{sortValue}}">Prev</a>
+{{/if}}
+[{{page}}]
+{{#if hasNextPage}}
+<a href="/?limit={{limit}}&page={{nextPage}}&sort={{sortValue}}">Next</a>
+{{/if}}
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/products.js"></script>

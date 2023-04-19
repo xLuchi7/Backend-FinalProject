@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { randomUUID } from 'crypto';
-import { Product } from './Product.js';
+import { Product } from '../Product.js';
 
 export class ProductManager{
 
@@ -98,7 +98,7 @@ const products = new ProductManager('./database/products.json');
 const product0 = await products.addProduct({
     title: "NoteBookHP",
     description: "Intel I7",
-    price: "270000",
+    price: 270000,
     thumbnail: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/monitor-gamer-27-benq-zowie-xl2731k-dark-grey-0.jpg",
     code: "1",
     stock: "8",
@@ -109,7 +109,7 @@ const product0 = await products.addProduct({
 const product1 = await products.addProduct({
     title: "Monitor Gaming",
     description: "240hz 24 pulgadas",
-    price: "170000",
+    price: 170000,
     thumbnail: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/monitor-gamer-27-benq-zowie-xl2731k-dark-grey-0.jpg",
     code: "2",
     stock: "18",
@@ -120,7 +120,7 @@ const product1 = await products.addProduct({
 const product2 = await products.addProduct({
     title: "Mouse Gaming",
     description: "Razer Viper Mini",
-    price: "15000",
+    price: 15000,
     thumbnail: "https://app.contabilium.com/files/explorer/7026/Productos-Servicios/concepto-3346007.jpg",
     code: "3",
     stock: "10",
@@ -131,7 +131,7 @@ const product2 = await products.addProduct({
 const product3 = await products.addProduct({
     title: "Mando PS4",
     description: "Control inalambrico",
-    price: "12000",
+    price: 12000,
     thumbnail: "https://arsonyb2c.vtexassets.com/arquivos/ids/292249/dualshockblack1.jpg?v=637105416256400000",
     code: "4",
     stock: "14",
