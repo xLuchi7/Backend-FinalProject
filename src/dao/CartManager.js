@@ -30,89 +30,73 @@ export class CartManager{
         nuevoCarrito = JSON.parse(JSON.stringify(nuevoCarrito))
         return nuevoCarrito
     }
-    async addProductToCartt(cid, pid){
-        const carts = await this.#rutaCart.find().lean()
-        const products = await this.#rutaProduct.find().lean()
-        //await this.#leerCarrito()
-        //await this.#leerProducts()
+    async addProductToCart(cid, pid){
         const product = await this.#rutaProduct.findById(pid).lean()
         const cart = await this.#rutaCart.findById(cid).lean()
+        const carritoViejo = await this.#rutaCart.findById(cid).lean()
+        let bandera = false;
 
-        console.log(product)
-        console.log(cart)
-        await cart.products.push({ id: product.id, quantity: 1 })
-        console.log("cart despues", cart)
-        
-        return product
-        // const index = this.#rutaCart[cart].products.findIndex((prod) => prod.id === pid)
-        // if (index !== -1) {
-        //     this.#rutaCart[cart].products.splice(index, 1, {...this.#rutaCart[cart].products[index], quantity: this.#rutaCart[cart].products[index].quantity + 1})
-        //     //await this.#escribirCarrito()
-        //     return this.#rutaCart[cart].products
-        // }else{
-        //     this.#rutaCart[cart].products.push({ id: product.id, quantity: 1 })
-        //     //await this.#escribirCarrito()
-        //     return this.#rutaCart[cart].products
-        // }
-        
-    }
-
-    async #leerProducts() {
-        const json = await fs.readFile(this.#rutaProduct, 'utf-8');
-        this.#products = JSON.parse(json);
-    }
-
-    async #leerCarrito() {
-        const json = await fs.readFile(this.#rutaCart, 'utf-8');
-        this.#carts = JSON.parse(json);
-    }
-
-    async #escribirCarrito() {
-        const json = await JSON.stringify(this.#carts, null, 2);
-        await fs.writeFile(this.#rutaCart, json);
-    }
-
-    async createCart(){
-        await this.#leerCarrito();
-        const newCart = new Cart({
-            id: randomUUID(),
-            products: []
-        })
-        this.#carts.push(newCart)
-        await this.#escribirCarrito();
-        return newCart
-    }
-
-    async getProducts(id){
-        await this.#leerCarrito();
-        const carrito = this.#carts.find((cart) => cart.id === id);
-        return carrito.products
-    }
-
-    async verCarrito(){
-        await this.#leerCarrito();
-        return this.#carts;
-    }
-
-    async addProductToCart(cid, pid){
-        await this.#leerCarrito()
-        await this.#leerProducts()
-        const product = this.#products.find((prod) => prod.id === pid)
-        const cart = this.#carts.findIndex((cart) => cart.id === cid)
-        console.log(this.#carts)
-        const index = this.#carts[cart].products.findIndex((prod) => prod.id === pid)
-        if (index !== -1) {
-            this.#carts[cart].products.splice(index, 1, {...this.#carts[cart].products[index], quantity: this.#carts[cart].products[index].quantity + 1})
-            await this.#escribirCarrito()
-            return this.#carts[cart].products
-        }else{
-            this.#carts[cart].products.push({ id: product.id, quantity: 1 })
-            await this.#escribirCarrito()
-            return this.#carts[cart].products
+        for (let i = 0; i < cart.products.length; i++) {
+            if (cart.products[i]._id == pid) {
+                cart.products[i].quantity++
+                await this.#rutaCart.updateOne(carritoViejo, cart)
+                bandera = true
+            }
         }
-        
+        if (bandera == false) {
+            await cart.products.push({ _id: product._id, quantity: 1 })
+            await this.#rutaCart.updateOne(carritoViejo, cart)
+        }
+        return cart
     }
+    async getProducts(id){
+        const carrito = await this.#rutaCart.findById(id).lean()
+        return carrito
+    }
+    async deleteProduct(cid, pid){
+        const product = await this.#rutaProduct.findById(pid).lean()
+        const cart = await this.#rutaCart.findById(cid).lean()
+        const carritoViejo = await this.#rutaCart.findById(cid).lean()
+        const products = cart.products
+        const aString = product._id.toString()
+        const index = products.findIndex(product => product._id.toString() === aString);
+        cart.products.splice(index, 1)
+        if (product) {
+            await this.#rutaCart.updateOne(carritoViejo, cart)
+        }else{
+            throw new Error("el id o carrito no fue encontrado")
+        }
+        return cart
+    }
+    async deleteCart(cid){
+        const cart = await this.#rutaCart.findById(cid).lean()
+        if (cart) {
+            await this.#rutaCart.deleteOne(cart)
+        }else{
+            throw new Error("el carrito no fue encontrado")
+        }
+       
+        return cart
+    }
+    async updateQuantity(cid, pid, qty){
+        const carritoViejo = await this.#rutaCart.findById(cid).lean()
+        const cart = await this.#rutaCart.findById(cid).lean()
+        const product = await this.#rutaProduct.findById(pid).lean()
+        const products = cart.products
+        const aString = product._id.toString()
+        const index = products.findIndex(product => product._id.toString() === aString);
+        cart.products.splice(index, 1)
+        const entero = parseInt(qty)
+        await cart.products.push({ _id: product._id, quantity: entero })
 
+        if (cart) {
+            await this.#rutaCart.updateOne(carritoViejo, cart)
+        }else{
+            throw new Error("el carrito no fue encontrado")
+        }
+
+        return cart
+    }
 }
 
 export const cartMongooseManager = new CartManager();

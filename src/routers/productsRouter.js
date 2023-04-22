@@ -16,6 +16,18 @@ productsRouter.get('/products', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
+productsRouter.get('/product/:pid', async (req, res, next) => { 
+    try {
+        const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);
+        console.log("PROD: ", product)
+        res.render('oneProduct', {
+            pageTitle: 'Product',
+            product
+        })
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+})
 productsRouter.get('/products/:pid', async (req, res, next) => { 
     try {
         const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);

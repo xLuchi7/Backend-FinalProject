@@ -3,7 +3,7 @@
 {{#if hayArray}}
 <ul>
     {{#each array}}
-    <li>{{this.title}}: $ {{this.price}}</li>
+    <li><a href="/product/{{this._id}}">{{this.title}}</a>: $ {{this.price}}</li>
     {{/each}}
 </ul>
 {{else}}
