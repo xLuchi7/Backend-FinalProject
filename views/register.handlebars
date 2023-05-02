@@ -1,0 +1,19 @@
+<h1>Registro</h1>
+<form action="/products" id="formRegister">
+  <label for="input_first_name">Nombre: </label> <input id="input_first_name" type="text" placeholder="nombre"><br>
+  <label for="input_last_name">Apellido: </label> <input id="input_last_name" type="text" placeholder="apellido"><br>
+  <label for="input_email">Email: </label> <input id="input_email" type="email" placeholder="email"><br>
+  <label for="input_age">Edad: </label> <input id="input_age" type="number" placeholder="edad"><br>
+  <label for="input_password">Contraseña: </label> <input id="input_password" type="password"><br>
+  <button type="submit">Enviar</button>
+</form>
+<p>Tenes una cuenta? <a href="/login">Inicia Sesion Aca</a></p>
+
+<div>
+  <a href="/api/sessions/github">
+    <button>Entrar con Github</button>
+  </a>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/register.js"></script>

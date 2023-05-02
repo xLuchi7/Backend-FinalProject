@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { randomUUID } from 'crypto';
-import { Cart } from '../Cart.js';
+import { Cart } from '../entidades/Cart.js';
 import mongoose from "mongoose";
 import { Schema, model } from 'mongoose';
 import { schemaProducts } from './ProductMongooseManager.js';

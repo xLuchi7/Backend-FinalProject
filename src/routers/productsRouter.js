@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { ProductManager } from '../dao/ProductManager.js';
-import { Product } from '../Product.js';
+import { Product } from '../entidades/Product.js';
 import { randomUUID } from 'crypto';
 import { ProductMongooseManager } from '../dao/ProductMongooseManager.js';
 
@@ -8,7 +8,7 @@ export const productsRouter = Router();
 
 const productsManager = new ProductManager('./database/products.json');
 
-productsRouter.get('/products', async (req, res, next) => { 
+productsRouter.get('/productss', async (req, res, next) => { 
     try {
         const cantProducts = await ProductMongooseManager.getCantProducts(req.query.limit);
         res.json(cantProducts);
@@ -16,7 +16,7 @@ productsRouter.get('/products', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
-productsRouter.get('/product/:pid', async (req, res, next) => { 
+productsRouter.get('/products/product/:pid', async (req, res, next) => { 
     try {
         const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);
         console.log("PROD: ", product)
@@ -28,7 +28,7 @@ productsRouter.get('/product/:pid', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
-productsRouter.get('/products/:pid', async (req, res, next) => { 
+productsRouter.get('/productss/:pid', async (req, res, next) => { 
     try {
         const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);
         res.json(product);
