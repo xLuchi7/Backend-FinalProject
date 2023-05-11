@@ -6,6 +6,8 @@ const usuarioSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     age: { type: Number },
     password: { type: String },
+    cartID: { type: String, unique: true },
+    role: { type: String }
 }, { versionKey: false })
 
 export const usuarioModel = mongoose.model('usuarios', usuarioSchema)

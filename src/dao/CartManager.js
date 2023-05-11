@@ -28,7 +28,7 @@ export class CartManager{
         })
         let nuevoCarrito = await this.#rutaCart.create(newCart)
         nuevoCarrito = JSON.parse(JSON.stringify(nuevoCarrito))
-        return nuevoCarrito
+        return nuevoCarrito._id
     }
     async addProductToCart(cid, pid){
         const product = await this.#rutaProduct.findById(pid).lean()

@@ -5,6 +5,7 @@ import { hashear, validarQueSeanIguales } from "../utils/criptografia.js";
 import { usuarioModel } from "../dao/usuarioManager.js";
 import { Strategy as GithubStrategy } from 'passport-github2';
 import { githubCallbackUrl, githubClientSecret, githubClienteId } from "../utils/authConfig.js";
+import { validarRol } from "../utils/rol.js";
 
 passport.use('local', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     let buscado = await usuarioModel.findOne({ email: email }).lean()
@@ -17,6 +18,8 @@ passport.use('local', new LocalStrategy({ usernameField: 'email' }, async (email
             last_name: buscado.last_name,
             email: buscado.email,
             age: buscado.age,
+            cartID: buscado.cartID,
+            role: buscado.role,
         }
         done(null, buscado)
     }

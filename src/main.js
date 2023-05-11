@@ -23,6 +23,9 @@ import { hashear, validarQueSeanIguales } from './utils/criptografia.js';
 import { autenticacionGithub, autenticacionGithub_CB, passportInitialize, passportSession } from './middlewares/passport.js';
 import { autenticacionUserPass } from "./middlewares/passport.js";
 import { postSessionsController } from "./controllers/sessionController.js";
+import { User } from './entidades/User.js';
+import { validarRol } from './utils/rol.js';
+import { cartMongooseManager } from './dao/CartManager.js';
 
 await conectar()
 
@@ -52,6 +55,18 @@ app.use(passportInitialize, passportSession)
 app.get('/api/sessions/github', autenticacionGithub)
 app.get('/api/sessions/githubcallback', autenticacionGithub_CB, (req, res, next) => { res.redirect('/products')})
 //app.get('/api/sessions/githubcallback', autenticacionGithub_CB)
+
+io.on('connection', async clientSocket => {
+    clientSocket.on('agregarAlCarrito', async datos => {
+        console.log("JUAN")
+        console.log("prodID:  ",datos.productID)
+        console.log("CartID:  ",datos.cartID)
+        //io.sockets.emit('actualizarProductos', await ProductMongooseManager.obtenerTodos())
+    })
+
+    //io.sockets.emit('productos', await ProductMongooseManager.obtenerTodos())
+    //io.sockets.emit('actualizarProductos', await ProductMongooseManager.obtenerTodos())
+})
 
 app.get('/login', (req, res) => {
     res.render('login', { pageTitle: "Iniciar Sesion" })
@@ -90,24 +105,22 @@ app.get('/register', (req, res) => {
 })
 
 app.post('/api/usuarios', async (req, res) => {
-    //console.log(req.body)
-    //const { first_name, last_name, email, age, password } = req.body
-    let nuevoUsuario = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        age: req.body.age,
-        password: hashear(req.body.password)
-    }
-    console.log("CON CONTRA HASHEADA: ", nuevoUsuario)
-    const usuarioCreado = await usuarioModel.create(nuevoUsuario)
 
-    nuevoUsuario = {
+    const id = await cartMongooseManager.createNewCart()
+
+    console.log("EL NUEVO ID DEL CARRITO ES: ", id);
+    
+    let nuevoUsuario = new User({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
         age: req.body.age,
-    }
+        password: hashear(req.body.password),
+        cartID: id,
+        role: validarRol(req.body.email)
+    })
+    console.log("CON CONTRA HASHEADA: ", nuevoUsuario)
+    await usuarioModel.create(nuevoUsuario)
 
     req.logIn(nuevoUsuario, error => {
         if(error){
@@ -128,6 +141,12 @@ app.post('/api/usuarios', async (req, res) => {
 })
 
 app.get('/profile', autenticacion, (req, res) => {
+    res.render('profile', { 
+        pageTitle: "Perfil", user: req.user
+    })
+})
+
+app.get('/api/sesiones/current', autenticacion, (req, res) => {
     res.render('profile', { 
         pageTitle: "Perfil", user: req.user
     })
@@ -232,23 +251,3 @@ app.get('/chat', async (req,res) => {
 })
 
 app.use('/', apiRouter)
-
-//const productsManager = new ProductManager('./database/products.json');
-
-// app.get('/products', async (req, res) => {
-//     try {
-//         const cantProducts = await productsManager.getCantProducts(req.query.limit);
-//         res.json(cantProducts);
-//     } catch (error) {
-//         res.status(404).json({ message: error.message })
-//     }
-// })
-
-// app.get('/products/:pid', async (req, res) => {
-//     try {
-//         const product = await productsManager.getProductById(req.params.pid);
-//         res.json(product);
-//     } catch (error) {
-//         res.status(404).json({ message: error.message })
-//     }
-// })

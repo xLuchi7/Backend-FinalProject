@@ -3,6 +3,13 @@
     <li>Precio: $ {{product.price}}</li>
     <li>Descripcion: {{product.description}}</li>
     <li>Stock: {{product.stock}}</li>
+    <li id="cartID">Cart ID: {{user.cartID}}</li>
+    <li id="prodID">Product ID: {{product._id}}</li>
 </ul>
 
+{{!-- <button id="addProd">Add To Cart</button><br><br> --}}
+<button><a href="/carrito/{{user.cartID}}/producto/{{product._id}}">Agregar al carrito</a></button><br><br>
+
 <a href="/products">VOLVER</a>
+
+<script src="/js/oneProduct.js"></script>
