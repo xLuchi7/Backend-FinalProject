@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
-import { ProductManager } from '../dao/ProductManager.js';
+import { ProductManager } from '../dao/LocalStorage/ProductManager.js';
 import { Product } from '../entidades/Product.js';
 import { randomUUID } from 'crypto';
-import { ProductMongooseManager } from '../dao/ProductMongooseManager.js';
-import { cartMongooseManager } from '../dao/CartManager.js';
+import { ProductMongooseManager } from '../dao/MongooseManagers/ProductMongooseManager.js';
+import { cartMongooseManager } from '../dao/MongooseManagers/CartManager.js';
 
 export const productsRouter = Router();
 
@@ -31,9 +31,6 @@ productsRouter.get('/products/product/:pid', async (req, res, next) => {
     }
 })
 productsRouter.get('/carrito/:cid/producto/:pid', async (req, res) => { 
-    console.log("AAAAAAAAAAAA")
-    console.log("PROD ID: ", req.params.pid)
-    console.log("CART ID: ", req.params.cid)
     const product = await ProductMongooseManager.obtenerSegunId(req.params.pid)
     const cart = await cartMongooseManager.addProductToCart(req.params.cid, req.params.pid)
     res.render('oneProduct', {

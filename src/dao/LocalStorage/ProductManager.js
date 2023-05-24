@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { randomUUID } from 'crypto';
-import { Product } from '../entidades/Product.js';
+import { Product } from '../../entidades/Product.js';
 
 export class ProductManager{
 
@@ -141,3 +141,5 @@ const product3 = await products.addProduct({
 
 const encontrado = await products.getProductById('dfb5fd4d-3c9d-4f57-b917-593f84dfd1dc');
 //console.log("El producto fue encontrado y es: ", encontrado);
+
+export const ProductMemoriaMJ = new ProductManager()

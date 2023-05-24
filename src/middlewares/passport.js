@@ -1,10 +1,9 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from 'passport-local'
-import { User } from "../entidades/User.js";
 import { hashear, validarQueSeanIguales } from "../utils/criptografia.js";
-import { usuarioModel } from "../dao/usuarioManager.js";
+import { usuarioModel } from "../dao/userModel.js";
 import { Strategy as GithubStrategy } from 'passport-github2';
-import { githubCallbackUrl, githubClientSecret, githubClienteId } from "../utils/authConfig.js";
+import { githubCallbackUrl, githubClientSecret, githubClienteId } from "../config/authConfig.js";
 import { validarRol } from "../utils/rol.js";
 
 passport.use('local', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
@@ -32,16 +31,7 @@ passport.use('github', new GithubStrategy({
 }, async (accessToken, refreshToken, profile, done) => {
     console.log(profile.username)
     let user
-    // let user = {
-    //     email: profile.username
-    // }
-    // console.log("USUARIO: ", user)
-    // let creado = await usuarioModel.create(user)
-    // console.log("CREADO: ", creado)
     try {
-        // let user = {
-        //     email: profile.username
-        // }
         user = await usuarioModel.findOne({ email: profile.username }).lean()
         console.log("USUARIO YA ENCONTRADO: ", user)
     } catch (error) {
