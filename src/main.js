@@ -14,7 +14,6 @@ import mongoosePaginate from "mongoose";
 import { paginate } from 'mongoose-paginate-v2';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import { usuarioModel } from './dao/userModel.js';
 import { autenticacion } from './utils/autenticacion.js';
 import { redireccion } from './utils/redireccion.js';
 import { yaLogueado } from './utils/yaLogueado.js';
@@ -27,6 +26,8 @@ import { User } from './entidades/User.js';
 import { validarRol } from './utils/rol.js';
 import { cartMongooseManager } from './dao/MongooseManagers/CartManager.js';
 import { viewsRouter } from './routers/viewsRouter.js';
+import { productService } from './services/productService.js';
+import { chatService } from './services/chatService.js';
 
 await conectar()
 
@@ -83,12 +84,12 @@ io.on('connection', async clientSocket => {
     console.log("nuevo cliente conectado ", clientSocket.id)
     clientSocket.on('nuevoProducto', async product => {
         console.log("soy el producto: ",product)
-        await ProductMongooseManager.guardar(product)
-        io.sockets.emit('actualizarProductos', await ProductMongooseManager.obtenerTodos())
+        await productService.guardarProducto(product)
+        io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
     })
 
-    io.sockets.emit('productos', await ProductMongooseManager.obtenerTodos())
-    io.sockets.emit('actualizarProductos', await ProductMongooseManager.obtenerTodos())
+    io.sockets.emit('productos', await productService.obtenerProductos())
+    io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
 })
 
 //ACA IBA PRODUCTS
@@ -99,18 +100,18 @@ io.on('connection', async clientSocket => {
     console.log("nuevo cliente conectado ", clientSocket.id)
     clientSocket.on("nuevoMensaje", async mensaje => {
         console.log(mensaje)
-        await MessagesMongooseManager.guardarMensaje({
+        await chatService.guardarMensaje({
             fecha: new Date().toLocaleString(),
             ...mensaje
         })
-        io.sockets.emit("actualizarMensajes", await MessagesMongooseManager.obtenerMensajes())
+        io.sockets.emit("actualizarMensajes", await chatService.obtenerMensajes())
     })
 
     clientSocket.on('nuevoUsuario', async nombreUsuario => {
         clientSocket.broadcast.emit('nuevoUsuario', nombreUsuario)
     })
 
-    io.sockets.emit('actualizarMensajes', await MessagesMongooseManager.obtenerMensajes())
+    io.sockets.emit('actualizarMensajes', await chatService.obtenerMensajes())
 })
 
 //ACA IBA CHAT

@@ -1,0 +1,10 @@
+<h1>PRODUCTOS COMPRADOS EXITOSAMENTE: </h1>
+
+<ul>
+    {{#each productosComprados}}
+        <li>{{this.quantity}} Unidades de: {{this.title}} con un precio unitario de: {{this.price}}</li>
+    {{/each}}
+</ul>
+
+<h3>Total: $ {{total}}</h3>
+{{!-- <script src="/js/products.js"></script> --}}

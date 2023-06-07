@@ -1,8 +1,12 @@
 <h1>Chat</h1>
 
-<label for="autor">Autor</label><input id="inputAutor" name="autor" type="text" disabled>
-<label for="autor">Mensaje</label><input id="inputMensaje" name="mensaje" type="text">
-<button id="btnEnviar">enviar</button>
+{{#if usuario}}
+    <label for="autor">Autor</label><input id="inputAutor" name="autor" type="text" disabled>
+    <label for="autor">Mensaje</label><input id="inputMensaje" name="mensaje" type="text">
+    <button id="btnEnviar">enviar</button>
+{{else}}
+    Solo los usuarios pueden enviar mensajes
+{{/if}}
 
 <h3>Mensajes</h3>
 

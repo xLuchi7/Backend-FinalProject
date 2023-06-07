@@ -17,29 +17,6 @@ productsRouter.get('/productss', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
-productsRouter.get('/products/product/:pid', async (req, res, next) => { 
-    try {
-        const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);
-        console.log("PROD: ", product)
-        res.render('oneProduct', {
-            pageTitle: 'Product',
-            product,
-            user: req.user
-        })
-    } catch (error) {
-        res.status(404).json({ message: error.message })
-    }
-})
-productsRouter.get('/carrito/:cid/producto/:pid', async (req, res) => { 
-    const product = await ProductMongooseManager.obtenerSegunId(req.params.pid)
-    const cart = await cartMongooseManager.addProductToCart(req.params.cid, req.params.pid)
-    res.render('oneProduct', {
-        pageTitle: 'Product',
-        product,
-        user: req.user
-    })
-})
-
 productsRouter.get('/productss/:pid', async (req, res, next) => { 
     try {
         const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);

@@ -1,5 +1,5 @@
 import { usuarioDao } from "../dao/daoFactory.js";
-import { usuarioModel } from "../dao/userModel.js";
+import { usuarioModel } from "../dao/MongooseManagers/userModel.js";
 import { User } from "../entidades/User.js";
 
 class UsuariosRepository{

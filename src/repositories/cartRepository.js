@@ -1,5 +1,5 @@
 import { cartDao } from "../dao/daoFactory.js";
-import { cartMongooseManager } from "../dao/MongooseManagers/CartManager";
+import { cartMongooseManager } from "../dao/MongooseManagers/CartManager.js";
 
 class CartRepository{
     constructor(dao){

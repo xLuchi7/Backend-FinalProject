@@ -1,0 +1,24 @@
+<h1>CARRITO: </h1>
+<div id="cart"></div>
+{{#if user}}
+    <ul>
+        {{#each productos}}
+            <li>{{this.title}}: $ {{this.price}}. Unidades:{{this.quantity}}</li>
+        {{/each}}
+    </ul>
+
+    <h3>Subtotal: $ {{total}}</h3>
+
+    <button><a href="/{{user.cartID}}/purchase">FINALIZAR COMPRA</a></button>
+{{else}}
+    array vacio...
+{{/if}}
+<br>
+{{#if user}}
+    <h4>Nombre: {{user.first_name}}</h4>
+    <h4>Apellido: {{user.last_name}}</h4>
+    <h4>Email: {{user.email}}</h4>
+    <h4>Cart ID: {{user.cartID}}</h4>
+{{/if}}
+<script src="/socket.io/socket.io.js"></script>
+{{!-- <script src="/js/products.js"></script> --}}

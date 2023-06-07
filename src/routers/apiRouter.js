@@ -5,7 +5,7 @@ import { autenticacionGithub, autenticacionGithub_CB, autenticacionUserPass, pas
 import { postSessionsController } from '../controllers/sessionController.js';
 import { cartMongooseManager } from '../dao/MongooseManagers/CartManager.js';
 import { User } from '../entidades/User.js';
-import { usuarioModel } from '../dao/userModel.js';
+import { usuarioModel } from '../dao/MongooseManagers/userModel.js';
 import { validarRol } from '../utils/rol.js';
 import { hashear } from '../utils/criptografia.js';
 import { autenticacion } from '../utils/autenticacion.js';

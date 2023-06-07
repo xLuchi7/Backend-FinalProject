@@ -25,6 +25,14 @@ class ProductService{
         const productos = await productRepository.obtenerTodos()
         return productos
     }
+    async obtenerUnProducto(id){
+        const product = await productRepository.obtenerSegunId(id)
+        return product
+    }
+    async guardarProducto(product){
+        const producto = await productRepository.guardar(product)
+        return producto
+    }
 }
 
 export const productService = new ProductService()

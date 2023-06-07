@@ -1,9 +1,18 @@
 <h1>Real Time Products</h1>
 
-<h2>Cargar Producto Nuevo: </h2>
-Titulo: <input id="inputTitulo" type="text">
-Precio: <input id="inputPrecio" type="text">
-<button id="btnCargar">Cargar Nuevo Producto</button>
+
+{{#if usuario}}
+    <h2>Cargar Producto Nuevo: </h2>
+    Titulo: <input id="inputTitulo" type="text"><br>
+    Descripcion: <input id="inputDescripcion" type="text"><br>
+    Precio: <input id="inputPrecio" type="text"><br>
+    Imagen: <input id="inputImagen" type="text"><br>
+    Codigo: <input id="inputCodigo" type="text"><br>
+    Stock: <input id="inputStock" type="text"><br><br>
+    <button id="btnCargar">Cargar Nuevo Producto</button>
+{{else}}
+    Solo un Administrador puede crear productos
+{{/if}}
 
 <h2>Productos en tiempo real: </h2>
 <div id="realtime"></div>

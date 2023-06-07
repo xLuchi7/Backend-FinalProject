@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from 'passport-local'
 import { hashear, validarQueSeanIguales } from "../utils/criptografia.js";
-import { usuarioModel } from "../dao/userModel.js";
+import { usuarioModel } from "../dao/MongooseManagers/userModel.js";
 import { Strategy as GithubStrategy } from 'passport-github2';
 import { githubCallbackUrl, githubClientSecret, githubClienteId } from "../config/authConfig.js";
 import { validarRol } from "../utils/rol.js";

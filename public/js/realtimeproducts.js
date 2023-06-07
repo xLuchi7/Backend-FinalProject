@@ -24,7 +24,11 @@ if (btnCargar) {
         'click',
         evento => {
             const inputTitulo = document.querySelector("#inputTitulo")
+            const inputDescripcion = document.querySelector("#inputDescripcion")
             const inputPrecio = document.querySelector("#inputPrecio")
+            const inputImagen = document.querySelector("#inputImagen")
+            const inputCodigo = document.querySelector("#inputCodigo")
+            const inputStock = document.querySelector("#inputStock")
 
             if (inputTitulo.value == "" || inputPrecio.value == "") {
                 Swal.fire({
@@ -35,7 +39,11 @@ if (btnCargar) {
             }else{
                 const product = {
                     title: inputTitulo.value,
-                    price: inputPrecio.value 
+                    description: inputDescripcion.value,
+                    price: inputPrecio.value,
+                    thumbnail: inputImagen.value,
+                    code: inputCodigo.value,
+                    stock: inputStock.value
                 }
                 serverSocket.emit('nuevoProducto', product)
             }

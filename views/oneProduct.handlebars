@@ -7,8 +7,14 @@
     <li id="prodID">Product ID: {{product._id}}</li>
 </ul>
 
-{{!-- <button id="addProd">Add To Cart</button><br><br> --}}
-<button><a href="/carrito/{{user.cartID}}/producto/{{product._id}}">Agregar al carrito</a></button><br><br>
+{{!-- <div id="agregar">
+
+</div> --}}
+{{#if usuario}}
+    <button><a href="/carrito/{{user.cartID}}/producto/{{product._id}}">Agregar al carrito</a></button><br><br>
+{{else}}
+    Solo el usuario puede agregar productos al carrito <br><br>
+{{/if}}
 
 <a href="/products">VOLVER</a>
 

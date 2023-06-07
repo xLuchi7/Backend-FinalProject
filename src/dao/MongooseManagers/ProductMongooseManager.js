@@ -55,7 +55,7 @@ class productsManager{
     }
     async reemplzarProducto(id, nuevoProducto){
         const product = await this.#productsDB.findById(id).lean()
-        console.log("el producto q quiero modificar es: ", product)
+        //console.log("el producto q quiero modificar es: ", product)
         if (product) {
             await this.#productsDB.updateOne(product, nuevoProducto)
         }else{
