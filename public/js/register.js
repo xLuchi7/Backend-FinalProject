@@ -10,8 +10,6 @@ if (form instanceof HTMLFormElement) {
         const input_age = document.getElementById("input_age")
         const input_password = document.getElementById("input_password")
 
-        console.log(input_first_name.value)
-
         if(
             input_first_name instanceof HTMLInputElement &&
             input_last_name instanceof HTMLInputElement &&
@@ -26,8 +24,8 @@ if (form instanceof HTMLFormElement) {
                 age: input_age.value,
                 password: input_password.value,
             }
-
-            const { usuarioCreado } = await fetch('/api/usuarios', {
+            //const response = await fetch('/api/usuarios', {
+            const response = await fetch('/api/usuarios', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -35,14 +33,13 @@ if (form instanceof HTMLFormElement) {
                 },
                 body: JSON.stringify(datosUsuario)
             })
-            //.then(res => res.json())
-            window.location.href = '/profile'
-
-            // if (usuarioCreado === 201) {
-            //     window.location.href = '/profile'
-            // } else {
-            //     console.log('[login] estado inesperado: ' + status)
-            // }
+            .then(res => res.json())
+            
+            if (response.estado  !== "error") {
+                window.location.href = '/profile'
+            } else {
+                console.log(response)
+            }
         }
     })
 }

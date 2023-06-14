@@ -1,4 +1,4 @@
-import { Ticket } from "../entidades/Ticket.js"
+import { Ticket } from "../models/entidades/Ticket.js"
 import { ticketsRepository } from "../repositories/ticketRepository.js"
 import { randomUUID } from 'crypto';
 

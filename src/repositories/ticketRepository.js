@@ -1,5 +1,5 @@
 import { ticketDao } from "../dao/daoFactory.js";
-import { Ticket } from "../entidades/Ticket.js";
+import { Ticket } from "../models/entidades/Ticket.js";
 
 class TicketsRepository{
     constructor(dao){

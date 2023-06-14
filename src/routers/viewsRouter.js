@@ -1,7 +1,8 @@
 import express, { Router } from 'express';
 import { MessagesMongooseManager } from '../dao/MongooseManagers/MensajesManager.js';
 import productModel, { ProductMongooseManager } from '../dao/MongooseManagers/ProductMongooseManager.js';
-import { Ticket } from '../entidades/Ticket.js';
+import { ErrorHandler } from '../middlewares/ErrorHandler.js';
+import { Ticket } from '../models/entidades/Ticket.js';
 import { cartService } from '../services/cartService.js';
 import { chatService } from '../services/chatService.js';
 import { productService } from '../services/productService.js';
@@ -124,7 +125,7 @@ viewsRouter.get('/profile', autenticacion, (req, res) => {
     })
 })
 
-viewsRouter.get('/realtimeproducts', async (req,res) => {
+viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
     const productos = await productService.obtenerProductos()
     let usuario
     if(req.user.role == "admin"){

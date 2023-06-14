@@ -1,5 +1,6 @@
 import { cartMongooseManager } from "../dao/MongooseManagers/CartManager.js"
-import { User } from "../entidades/User.js"
+import { User } from "../models/entidades/User.js"
+import { ErrorArgumentoInvalido } from "../models/errors/ArgumentoInvalidoError.js"
 import { usuariosRepository } from "../repositories/userRepository.js"
 import { hashear } from "../utils/criptografia.js"
 import { validarRol } from "../utils/rol.js"

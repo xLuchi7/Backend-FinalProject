@@ -2,7 +2,6 @@ import express from 'express';
 import { engine } from 'express-handlebars';
 import { Server as SocketIOServer } from 'socket.io';
 import { ProductManager } from './dao/LocalStorage/ProductManager.js';
-import { Product } from './entidades/Product.js';
 import { randomUUID } from 'crypto';
 import fs from 'fs';
 import { apiRouter } from './routers/apiRouter.js';
@@ -22,12 +21,12 @@ import { hashear, validarQueSeanIguales } from './utils/criptografia.js';
 import { autenticacionGithub, autenticacionGithub_CB, passportInitialize, passportSession } from './middlewares/passport.js';
 import { autenticacionUserPass } from "./middlewares/passport.js";
 import { postSessionsController } from "./controllers/sessionController.js";
-import { User } from './entidades/User.js';
 import { validarRol } from './utils/rol.js';
 import { cartMongooseManager } from './dao/MongooseManagers/CartManager.js';
 import { viewsRouter } from './routers/viewsRouter.js';
 import { productService } from './services/productService.js';
 import { chatService } from './services/chatService.js';
+import { ErrorHandler } from './middlewares/ErrorHandler.js';
 
 await conectar()
 
@@ -117,4 +116,5 @@ io.on('connection', async clientSocket => {
 //ACA IBA CHAT
 
 app.use('/', apiRouter)
+//app.use(ErrorHandler)
 app.use('/', viewsRouter)

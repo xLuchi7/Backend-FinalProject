@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { randomUUID } from 'crypto';
 import { CartManager } from '../dao/MongooseManagers/CartManager.js';
-import { Cart } from '../entidades/Cart.js';
+import { Cart } from '../models/entidades/Cart.js';
 import { cartMongooseManager } from '../dao/MongooseManagers/CartManager.js';
 
 export const cartRouter = Router();

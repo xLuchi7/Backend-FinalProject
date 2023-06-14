@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { ProductManager } from '../dao/LocalStorage/ProductManager.js';
-import { Product } from '../entidades/Product.js';
+import { Product } from '../models/entidades/Product.js';
 import { randomUUID } from 'crypto';
 import { ProductMongooseManager } from '../dao/MongooseManagers/ProductMongooseManager.js';
 import { cartMongooseManager } from '../dao/MongooseManagers/CartManager.js';
