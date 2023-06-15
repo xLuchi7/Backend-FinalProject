@@ -27,6 +27,8 @@ import { viewsRouter } from './routers/viewsRouter.js';
 import { productService } from './services/productService.js';
 import { chatService } from './services/chatService.js';
 import { ErrorHandler } from './middlewares/ErrorHandler.js';
+import { Product } from './models/entidades/Product.js';
+import { nextTick } from 'process';
 
 await conectar()
 
@@ -82,9 +84,16 @@ io.on('connection', async clientSocket => {
 io.on('connection', async clientSocket => {
     console.log("nuevo cliente conectado ", clientSocket.id)
     clientSocket.on('nuevoProducto', async product => {
-        console.log("soy el producto: ",product)
-        await productService.guardarProducto(product)
-        io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
+        try {
+            const producto = new Product(product)
+            console.log("soy el producto: ",producto)
+            await productService.guardarProducto(producto)
+            io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
+        } catch (error) {
+            console.log("entre al catch")
+            ErrorHandler(error)
+            //next(error)
+        }
     })
 
     io.sockets.emit('productos', await productService.obtenerProductos())

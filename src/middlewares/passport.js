@@ -5,22 +5,32 @@ import { usuarioModel } from "../dao/MongooseManagers/userModel.js";
 import { Strategy as GithubStrategy } from 'passport-github2';
 import { githubCallbackUrl, githubClientSecret, githubClienteId } from "../config/authConfig.js";
 import { validarRol } from "../utils/rol.js";
+import { ErrorHandler } from "./ErrorHandler.js";
+import { ErrorLogin } from "../models/errors/ErrorLogin.js";
 
 passport.use('local', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     let buscado = await usuarioModel.findOne({ email: email }).lean()
+    if(buscado == null){
+        buscado = ""
+    }
     console.log("USUARIO: ", buscado)
-    const existe = validarQueSeanIguales(password, buscado.password)
-    if (existe == true) {
-        console.log("ENTRE BIEN")
-        buscado = {
-            first_name: buscado.first_name,
-            last_name: buscado.last_name,
-            email: buscado.email,
-            age: buscado.age,
-            cartID: buscado.cartID,
-            role: buscado.role,
+    let existe
+    try {
+        existe = validarQueSeanIguales(password, buscado.password)
+        if (existe == true) {
+            console.log("ENTRE BIEN")
+            buscado = {
+                first_name: buscado.first_name,
+                last_name: buscado.last_name,
+                email: buscado.email,
+                age: buscado.age,
+                cartID: buscado.cartID,
+                role: buscado.role,
+            }
+            done(null, buscado)
         }
-        done(null, buscado)
+    } catch (error) {
+        ErrorHandler(error)
     }
 }))
 

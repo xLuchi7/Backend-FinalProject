@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import { entregarProductosInvalidos, entregarProductosValidos } from '../../test/testProducts.js';
 import { MessagesMongooseManager } from '../dao/MongooseManagers/MensajesManager.js';
 import productModel, { ProductMongooseManager } from '../dao/MongooseManagers/ProductMongooseManager.js';
 import { ErrorHandler } from '../middlewares/ErrorHandler.js';
@@ -155,4 +156,10 @@ viewsRouter.get('/chat', autenticacion, async (req,res) => {
         mensajes,
         usuario
     })
+})
+
+viewsRouter.get('/mockingproducts', (req, res) => {
+    const products = entregarProductosValidos()
+    //const products = entregarProductosInvalidos()
+    res.json(products)
 })
