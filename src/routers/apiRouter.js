@@ -29,7 +29,7 @@ apiRouter.use('/', cartRouter)
 
 //login post
 apiRouter.post('/api/sesiones', autenticacionUserPass, postSessionsController,  async (req, res) => {
-    console.log("en app.post: ", req.user)
+    req.logger.info("usuario: "+req.user)
     res.status(201).json(req.user)
 })
 
@@ -46,6 +46,7 @@ apiRouter.post('/api/usuarios', async (req, res, next) => {
             res.status(201).json(req.user)
         })
     } catch (error) {
+        req.logger.error("fallo desde el logger")
         next(error)
     }
 })
@@ -59,7 +60,7 @@ apiRouter.get('/api/sesiones/current', autenticacion, (req, res) => {
 
 //delete sesion
 apiRouter.delete('/api/sesiones', async (req, res) => {
-    console.log("usuario a destruir: ", req.user)
+    req.logger.info("usuario a destruir: "+req.user)
 
     req.logOut(err => {
         res.sendStatus(200)

@@ -45,7 +45,6 @@ class productsManager{
     }
     async borrarProductoPorId(id){
         const product = await this.#productsDB.findById(id).lean()
-        console.log("el producto q quiero borrar es: ", product)
         if (product) {
             await this.#productsDB.deleteOne(product)
         }else{
@@ -55,7 +54,6 @@ class productsManager{
     }
     async reemplzarProducto(id, nuevoProducto){
         const product = await this.#productsDB.findById(id).lean()
-        //console.log("el producto q quiero modificar es: ", product)
         if (product) {
             await this.#productsDB.updateOne(product, nuevoProducto)
         }else{

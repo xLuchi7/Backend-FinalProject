@@ -29,12 +29,16 @@ import { chatService } from './services/chatService.js';
 import { ErrorHandler } from './middlewares/ErrorHandler.js';
 import { Product } from './models/entidades/Product.js';
 import { nextTick } from 'process';
+import { logger } from './middlewares/logger.js';
+import { winstonLogger } from './utils/winstonLogger.js';
 
 await conectar()
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(logger)
 
 app.engine('handlebars', engine())
 app.set('views', './views')
@@ -57,9 +61,6 @@ app.use(session({
 
 io.on('connection', async clientSocket => {
     clientSocket.on('agregarAlCarrito', async datos => {
-        console.log("JUAN")
-        console.log("prodID:  ",datos.productID)
-        console.log("CartID:  ",datos.cartID)
         //io.sockets.emit('actualizarProductos', await ProductMongooseManager.obtenerTodos())
     })
 
@@ -82,15 +83,13 @@ io.on('connection', async clientSocket => {
 //ACA IBA DELETE SESION
 
 io.on('connection', async clientSocket => {
-    console.log("nuevo cliente conectado ", clientSocket.id)
+    winstonLogger.info("nuevo cliente conectado "+clientSocket.id)
     clientSocket.on('nuevoProducto', async product => {
         try {
             const producto = new Product(product)
-            console.log("soy el producto: ",producto)
             await productService.guardarProducto(producto)
             io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
         } catch (error) {
-            console.log("entre al catch")
             ErrorHandler(error)
             //next(error)
         }
@@ -107,7 +106,6 @@ io.on('connection', async clientSocket => {
 io.on('connection', async clientSocket => {
     console.log("nuevo cliente conectado ", clientSocket.id)
     clientSocket.on("nuevoMensaje", async mensaje => {
-        console.log(mensaje)
         await chatService.guardarMensaje({
             fecha: new Date().toLocaleString(),
             ...mensaje

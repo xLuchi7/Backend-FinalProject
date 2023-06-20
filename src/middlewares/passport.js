@@ -13,12 +13,10 @@ passport.use('local', new LocalStrategy({ usernameField: 'email' }, async (email
     if(buscado == null){
         buscado = ""
     }
-    console.log("USUARIO: ", buscado)
     let existe
     try {
         existe = validarQueSeanIguales(password, buscado.password)
         if (existe == true) {
-            console.log("ENTRE BIEN")
             buscado = {
                 first_name: buscado.first_name,
                 last_name: buscado.last_name,
@@ -39,17 +37,14 @@ passport.use('github', new GithubStrategy({
     clientSecret: githubClientSecret,
     callbackURL: githubCallbackUrl,
 }, async (accessToken, refreshToken, profile, done) => {
-    console.log(profile.username)
     let user
     try {
         user = await usuarioModel.findOne({ email: profile.username }).lean()
-        console.log("USUARIO YA ENCONTRADO: ", user)
     } catch (error) {
         user = {
             email: profile.username
         }
         await usuarioModel.create(user)
-        console.log("NUEVO USUARIO: ", user)
     }
     done(null, user)
 }))

@@ -60,22 +60,12 @@ export class ProductManager{
     }
 
     async addProduct(newProduct){
-
         const product = this.#products.find((product) => product.code === newProduct.code)
-
         if(product){
-
             throw new Error("id no encontrado")
-
         }else{
-
             this.#products.push(newProduct)
-
-            //console.log("El producto se creo exitosamente: ");
-            //console.log(newProduct);
-
             await this.#escribirProductos();
-
         }              
 
     }
@@ -104,7 +94,6 @@ const product0 = await products.addProduct({
     stock: "8",
     id: 'dfb5fd4d-3c9d-4f57-b917-593f84dfd1dc'
 })
-//console.log(product0);
 
 const product1 = await products.addProduct({
     title: "Monitor Gaming",
@@ -115,7 +104,6 @@ const product1 = await products.addProduct({
     stock: "18",
     id: '75c67b27-fb1d-498b-8ff6-358a964cb8f3'
 })
-//console.log(product1);
 
 const product2 = await products.addProduct({
     title: "Mouse Gaming",
@@ -126,7 +114,6 @@ const product2 = await products.addProduct({
     stock: "10",
     id: '67f7f35f-2a6b-492a-a6d7-f8cc8511426a'
 })
-//console.log(product2);
 
 const product3 = await products.addProduct({
     title: "Mando PS4",
@@ -137,9 +124,7 @@ const product3 = await products.addProduct({
     stock: "14",
     id: '05d6aec9-0f1a-45bc-98fc-899162473f24'
 })
-//console.log(product3);
 
 const encontrado = await products.getProductById('dfb5fd4d-3c9d-4f57-b917-593f84dfd1dc');
-//console.log("El producto fue encontrado y es: ", encontrado);
 
 export const ProductMemoriaMJ = new ProductManager()

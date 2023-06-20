@@ -47,7 +47,6 @@ export function validarEmail(email){
 
 export function validarPrecio(precio){
   if(precio < 1){
-    //console.log("esta mal el precio")
     throw new ErrorProductoInvalido("el precio debe ser mayor que 0")
   }
   return precio
@@ -55,7 +54,6 @@ export function validarPrecio(precio){
 
 export function validarStock(stock){
   if(stock < 0){
-    //console.log("esta mal el stock")
     throw new ErrorProductoInvalido("el stock debe ser mayor o igual que 0")
   }
   return stock
@@ -63,7 +61,6 @@ export function validarStock(stock){
 
 export function validarCodigo(codigo){
   if(codigo < 0){
-    //console.log("esta mal el codigo")
     throw new ErrorProductoInvalido("el codigo debe ser mayor o igual que 0")
   }
   return codigo

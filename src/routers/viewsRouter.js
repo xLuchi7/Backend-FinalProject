@@ -40,14 +40,12 @@ viewsRouter.get('/products', async (req,res) => {
 viewsRouter.get('/products/product/:pid', async (req, res, next) => { 
     try {
         const product = await productService.obtenerUnProducto(req.params.pid);
-        console.log("PROD: ", product)
         let usuario
         if(req.user.role == "user"){
             usuario = true
         }else{
             usuario = false
         }
-        console.log("EL USER ESTA: ", usuario)
         res.render('oneProduct', {
             pageTitle: 'Product',
             product,
@@ -68,7 +66,6 @@ viewsRouter.get('/carrito/:cid/producto/:pid', async (req, res) => {
     }else{
         usuario = false
     }
-    console.log("EL USER ESTA: ", usuario)
     res.render('oneProduct', {
         pageTitle: 'Product',
         product,
@@ -94,14 +91,12 @@ viewsRouter.get('/:cid/purchase', async (req, res) => {
     const productos = await cartService.obtenerProductosDeCarrito(req.user.cartID)
     const total = await cartService.obtenerTotal(productos)
 
-    console.log("total: ", productos)
     const datosTicket = new Ticket({
         amount: total,
         purchaser: req.user.email
     })
     const ticket = await ticketsService.crearTicket(datosTicket)
     const productosComprados = await cartService.aprobarCompra(productos, req.user.cartID)
-    console.log("COMPRADOS: ", productosComprados)
 
     res.render('purchase', { 
         pageTitle: "Comprar Carrito",
@@ -149,7 +144,6 @@ viewsRouter.get('/chat', autenticacion, async (req,res) => {
     }else{
         usuario = false
     }
-    console.log("EL USER ESTA: ", usuario)
 
     res.render('chat', { 
         pageTitle: 'chat',

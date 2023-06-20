@@ -1,5 +1,6 @@
 import { cartRepository } from "../repositories/cartRepository.js";
 import { productRepository } from "../repositories/productRepository.js";
+import { winstonLogger } from "../utils/winstonLogger.js";
 
 class CartService{
     async obtenerCarrito(id){
@@ -37,21 +38,18 @@ class CartService{
         for (let i = 0; i < productos.length; i++) {
             let prodActual = await productRepository.obtenerSegunId(productos[i]._id)
             if(productos[i].quantity >= prodActual.stock){
-                console.log("LA COMPRA DE: ", productos[i].title, " NO esta aprobada. quantity: ",productos[i].quantity, " stock: ", prodActual.stock)
+                winstonLogger.info("La compra NO esta aprobada")
             }else{
-                console.log("LA COMPRA DE: ", productos[i].title, " esta aprobada. quantity: ",productos[i].quantity, " stock: ", prodActual.stock)
+                winstonLogger.info("La compra esta aprobada")
                 prodActual.stock = prodActual.stock - productos[i].quantity
-                console.log("NUEVO STOCK: ", prodActual.stock)
                 productosComprados[i] = await productRepository.reemplzarProducto(prodActual._id, prodActual)
                 productosComprados[i] = {
                     ...productosComprados[i],
                     quantity: productos[i].quantity
                 }
                 let productoBorrado = await cartRepository.deleteProduct(cid, prodActual._id)
-                console.log("BORRE DEL CARRITO: ", productoBorrado)
             }
         }
-        //console.log("AAAA: ", productosComprados)
         return productosComprados
     }
 }

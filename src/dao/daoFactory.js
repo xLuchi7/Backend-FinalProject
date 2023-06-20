@@ -9,7 +9,6 @@ let usuarioDao
 let ticketDao
 
 if(TIPO_PERSISTENCIA == 'mongoose'){
-    console.log("VOY A USAR MONGOOSE")
     const { cartMongooseManager } = await import('../dao/MongooseManagers/CartManager.js')
     const { MessagesMongooseManager } = await import('../dao/MongooseManagers/MensajesManager.js')
     const { ProductMongooseManager } = await import('../dao/MongooseManagers/ProductMongooseManager.js')
@@ -20,7 +19,6 @@ if(TIPO_PERSISTENCIA == 'mongoose'){
     usuarioDao = usuarioModel
     ticketDao = TicketsManager
 }else{
-    console.log("VOY A USAR MEMORIA")
     const { ProductMemoriaMJ } = await import('../dao/LocalStorage/ProductManager.js')
     productsDao = ProductMemoriaMJ
 }

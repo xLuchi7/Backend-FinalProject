@@ -1,3 +1,5 @@
+import { winstonLogger } from "../../src/utils/winstonLogger"
+
 const formLogout = document.querySelector('#formLogout')
 
 if (formLogout instanceof HTMLFormElement) {
@@ -11,7 +13,7 @@ if (formLogout instanceof HTMLFormElement) {
       if (status === 200) {
         window.location.href = '/login'
       } else {
-        console.log('[logout] estado inesperado: ' + status)
+        winstonLogger.error("Error en el logout "+ status)
       }
     })
   }
