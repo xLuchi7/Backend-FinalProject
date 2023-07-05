@@ -3,7 +3,7 @@
 {{#if user}}
     <ul>
         {{#each productos}}
-            <li>{{this.title}}: $ {{this.price}}. Unidades:{{this.quantity}}</li>
+            <li>{{this.title}}: $ {{this.price}}. Unidades:{{this.quantity}} <a href="/cart/product/{{this._id}}"> Eliminar Producto</a></li>
         {{/each}}
     </ul>
 

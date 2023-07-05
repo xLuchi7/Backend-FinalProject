@@ -6,6 +6,7 @@ import { ErrorHandler } from '../middlewares/ErrorHandler.js';
 import { Ticket } from '../models/entidades/Ticket.js';
 import { cartService } from '../services/cartService.js';
 import { chatService } from '../services/chatService.js';
+import { emailService } from '../services/mailService.js';
 import { productService } from '../services/productService.js';
 import { ticketsService } from '../services/ticketService.js';
 import { autenticacion } from '../utils/autenticacion.js';
@@ -74,6 +75,21 @@ viewsRouter.get('/carrito/:cid/producto/:pid', async (req, res) => {
     })
 })
 
+viewsRouter.get('/cart/product/:pid', autenticacion,  async (req, res) => { 
+    const productoEliminar = await cartService.borrarProductoDelCarrito(req.user.cartID, req.params.pid)
+    console.log("id de producto a elimiar: ", req.params.pid)
+    console.log("cart id: ", req.user.cartID)
+    const productos = await cartService.obtenerProductosDeCarrito(req.user.cartID)
+    const total = await cartService.obtenerTotal(productos)
+
+    res.render('cart', { 
+        pageTitle: "Carrito",
+        user: req.user,
+        productos,
+        total
+    })
+})
+
 viewsRouter.get('/cart', autenticacion, async (req, res) => {
     const productos = await cartService.obtenerProductosDeCarrito(req.user.cartID)
     const total = await cartService.obtenerTotal(productos)
@@ -116,8 +132,30 @@ viewsRouter.get('/register', (req, res) => {
 })
 
 viewsRouter.get('/profile', autenticacion, (req, res) => {
+    //const mail = await emailService.sendMail("sessaregoluchi@gmail.com", "prueba")
+    //console.log(mail)
     res.render('profile', { 
         pageTitle: "Perfil", user: req.user
+    })
+})
+
+viewsRouter.get('/restabelcerContrasenia', async (req, res) => {
+    const mail = req.user.email
+    const numero= Math.floor(Math.random() * 1000000)
+    const numeroRandom = String(numero).padStart(6, "0")
+    const string = "Los digitos son: "+ numeroRandom
+    console.log(string)
+    //await emailService.sendMail("sessaregoluchi@gmail.com", string)
+    await emailService.sendMail("sessaregoluchi@gmail.com", "http://localhost:8080/nuevaContra")
+    res.render('restablecerContra', { 
+        pageTitle: "Restablecer Contraseña",
+        email: mail
+    })
+})
+
+viewsRouter.get('/nuevaContra', async (req, res) => {
+    res.render('contraNueva', { 
+        pageTitle: "Cambio De Contraseña",
     })
 })
 

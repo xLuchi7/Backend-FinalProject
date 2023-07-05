@@ -11,6 +11,10 @@ class CartService{
         const cart = await cartRepository.addProductToCart(cid, pid)
         return cart
     }
+    async borrarProductoDelCarrito(cid, pid){
+        const cart = await cartRepository.deleteProduct(cid, pid)
+        return cart
+    }
     async obtenerProductosDeCarrito(cid){
         const carrito = await cartService.obtenerCarrito(cid)
         let productos = []

@@ -20,6 +20,17 @@ class UsuariosService{
         await usuariosRepository.createUser(nuevoUsuario)
         return nuevoUsuario
     }
+
+    async cambiarContra(contra, confirmar, id){
+        let usuarioActualizado
+        if(contra == confirmar){
+            console.log("entre al usuarioService")
+            usuarioActualizado =  await usuariosRepository.cambiarContra(contra, id)
+        }else{
+            throw new Error("Las contraseñas no coinciden")
+        }
+        return usuarioActualizado
+    }
 }
 
 export const usuariosService = new UsuariosService()

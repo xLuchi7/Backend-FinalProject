@@ -12,11 +12,13 @@ if(TIPO_PERSISTENCIA == 'mongoose'){
     const { cartMongooseManager } = await import('../dao/MongooseManagers/CartManager.js')
     const { MessagesMongooseManager } = await import('../dao/MongooseManagers/MensajesManager.js')
     const { ProductMongooseManager } = await import('../dao/MongooseManagers/ProductMongooseManager.js')
-    const { usuarioModel } = await import('./MongooseManagers/userModel.js')
+    //const { usuarioModel } = await import('./MongooseManagers/userModel.js')
+    const { UsersMongooseManager } = await import('./MongooseManagers/userModel.js')
     cartDao = cartMongooseManager
     mensajesDao = MessagesMongooseManager
     productsDao = ProductMongooseManager
-    usuarioDao = usuarioModel
+    //usuarioDao = usuarioModel
+    usuarioDao = UsersMongooseManager
     ticketDao = TicketsManager
 }else{
     const { ProductMemoriaMJ } = await import('../dao/LocalStorage/ProductManager.js')
