@@ -8,13 +8,15 @@ class UsuariosRepository{
     }
 
     async createUser(datosUsuario){
-        //let nuevoUsuario = new User(datosUsuario)
         return await this.dao.crearUsuario(datosUsuario)
     }
 
     async cambiarContra(contra, id){
-        console.log("entre al userRepository")
-        await this.dao.cambiarContra(contra, id)
+        return await this.dao.cambiarContra(contra, id)
+    }
+
+    async buscarIdDeUsuario(usuario){
+        return await this.dao.buscarIdDeUsuario(usuario)
     }
 }
 

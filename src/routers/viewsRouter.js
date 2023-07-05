@@ -9,6 +9,7 @@ import { chatService } from '../services/chatService.js';
 import { emailService } from '../services/mailService.js';
 import { productService } from '../services/productService.js';
 import { ticketsService } from '../services/ticketService.js';
+import { usuariosService } from '../services/usuarioService.js';
 import { autenticacion } from '../utils/autenticacion.js';
 import { redireccion } from '../utils/redireccion.js';
 import { yaLogueado } from '../utils/yaLogueado.js';
@@ -77,8 +78,8 @@ viewsRouter.get('/carrito/:cid/producto/:pid', async (req, res) => {
 
 viewsRouter.get('/cart/product/:pid', autenticacion,  async (req, res) => { 
     const productoEliminar = await cartService.borrarProductoDelCarrito(req.user.cartID, req.params.pid)
-    console.log("id de producto a elimiar: ", req.params.pid)
-    console.log("cart id: ", req.user.cartID)
+    //console.log("id de producto a elimiar: ", req.params.pid)
+   // console.log("cart id: ", req.user.cartID)
     const productos = await cartService.obtenerProductosDeCarrito(req.user.cartID)
     const total = await cartService.obtenerTotal(productos)
 
@@ -139,23 +140,27 @@ viewsRouter.get('/profile', autenticacion, (req, res) => {
     })
 })
 
-viewsRouter.get('/restabelcerContrasenia', async (req, res) => {
+viewsRouter.get('/mailEnviado', async (req, res) => {
     const mail = req.user.email
-    const numero= Math.floor(Math.random() * 1000000)
-    const numeroRandom = String(numero).padStart(6, "0")
-    const string = "Los digitos son: "+ numeroRandom
-    console.log(string)
+    // const numero= Math.floor(Math.random() * 1000000)
+    // const numeroRandom = String(numero).padStart(6, "0")
+    // const string = "Los digitos son: "+ numeroRandom
+    // console.log(string)
     //await emailService.sendMail("sessaregoluchi@gmail.com", string)
-    await emailService.sendMail("sessaregoluchi@gmail.com", "http://localhost:8080/nuevaContra")
-    res.render('restablecerContra', { 
+    const id = await usuariosService.buscarIdDeUsuario(req.user)
+    console.log("el id es: ", id)
+    await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}`)
+    res.render('mailEnviadoRestablecer', { 
         pageTitle: "Restablecer Contraseña",
         email: mail
     })
 })
 
-viewsRouter.get('/nuevaContra', async (req, res) => {
+viewsRouter.get('/cambiarContrasenia/:uid', async (req, res) => {
+    console.log("necesito: ", req.params.uid)
     res.render('contraNueva', { 
         pageTitle: "Cambio De Contraseña",
+        idMandado: req.params.uid
     })
 })
 

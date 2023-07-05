@@ -1,3 +1,9 @@
+let idUsado
+document.addEventListener('DOMContentLoaded', function(){
+    let element = document.getElementById('myElement');
+    idUsado = element.getAttribute('data-id');
+})
+
 const formNueva = document.getElementById("formNuevaC")
 
 if (formNueva instanceof HTMLFormElement) {
@@ -15,7 +21,7 @@ if (formNueva instanceof HTMLFormElement) {
                 contra: input_contra.value,
                 confirmar: input_confirmar.value
             }
-            const  { status } = await fetch('/api/nuevaContra', {
+            const  { status } = await fetch(`/api/cambiarContrasenia/${idUsado}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

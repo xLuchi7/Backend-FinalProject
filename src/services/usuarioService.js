@@ -31,6 +31,11 @@ class UsuariosService{
         }
         return usuarioActualizado
     }
+
+    async buscarIdDeUsuario(usuario){
+        const id = await usuariosRepository.buscarIdDeUsuario(usuario)
+        return id
+    }
 }
 
 export const usuariosService = new UsuariosService()

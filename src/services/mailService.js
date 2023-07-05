@@ -25,7 +25,7 @@ class EmailService{
         }
         try {
             const info = await this.#clientNodemailer.sendMail(mailConfig)
-            console.log(info)
+            console.log("se mando el mail")
             return info
         } catch (error) {
             console.log(error)

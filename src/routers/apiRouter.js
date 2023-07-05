@@ -80,16 +80,17 @@ apiRouter.delete('/api/sesiones', async (req, res) => {
 //         console.log("fallo mandar mail")
 //     }
 // })
-apiRouter.post('/api/nuevaContra', async (req, res, next) => {
+apiRouter.post('/api/cambiarContrasenia/:uid', async (req, res, next) => {
     try {
         const datos = req.body
-        console.log("contra", datos.contra)
-        console.log("confirmar", datos.confirmar)
+        //console.log("contra", datos.contra)
+        //console.log("confirmar", datos.confirmar)
+        console.log("llego el id: ", req.params.uid)
         const id =  await UsersMongooseManager.buscarIdDeUsuario(req.user)
-        console.log("id: ", id)
+        //console.log("id: ", id)
         //console.log("biennn")
-        const usuarioNew = await usuariosService.cambiarContra(datos.contra, datos.confirmar, id)
-        console.log(usuarioNew)
+        const usuarioNew = await usuariosService.cambiarContra(datos.contra, datos.confirmar, req.params.uid)
+        //console.log(usuarioNew)
         res.sendStatus(200)
         // Swal.fire(
         //     'The Internet?',
