@@ -2,16 +2,14 @@ import { validarCodigo, validarPrecio, validarStock } from "../validations/valid
 import { randomUUID } from 'crypto';
 
 export class Product{
-    constructor({title, description, price, thumbnail, code, stock, id}) {
+    constructor({title, description, price, thumbnail, code, stock, owner, id}) {
         this.title = title,
         this.description = description,
         this.price = validarPrecio(price),
-        //this.price = price,
         this.thumbnail = thumbnail,
         this.code = validarCodigo(code),
-        //this.code = code,
         this.stock = validarStock(stock),
-        //this.stock = stock,
+        this.owner = owner
         this.id = randomUUID(id)
     }
 }

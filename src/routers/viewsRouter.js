@@ -13,6 +13,7 @@ import { usuariosService } from '../services/usuarioService.js';
 import { autenticacion } from '../utils/autenticacion.js';
 import { redireccion } from '../utils/redireccion.js';
 import { yaLogueado } from '../utils/yaLogueado.js';
+import { randomUUID } from 'crypto';
 
 export const viewsRouter = Router();
 
@@ -165,17 +166,21 @@ viewsRouter.get('/cambiarContrasenia/:uid', async (req, res) => {
 })
 
 viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
+    const num = randomUUID()
+    console.log(num)
     const productos = await productService.obtenerProductos()
     let usuario
-    if(req.user.role == "admin"){
+    if(req.user.role == "admin" || req.user.role == "premium"){
         usuario = true
     }else{
         usuario = false
     }
+    const idUsuario = await usuariosService.buscarIdDeUsuario(req.user)
     res.render('realtimeproducts', { 
         pageTitle: 'RealTime',
         productos,
-        usuario
+        usuario,
+        idUsuario
     })
 })
 

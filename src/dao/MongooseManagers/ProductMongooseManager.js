@@ -11,6 +11,7 @@ export const schemaProducts = new Schema({
     thumbnail: { type: String },
     code: { type: Number },
     stock: { type: Number },
+    owner: { type: String },
     id: { type: String },
 }, { versionKey: false })
 

@@ -1,3 +1,11 @@
+let idUsuario
+document.addEventListener('DOMContentLoaded', function(){
+    let elemento = document.getElementById('myElemento');
+    idUsuario = elemento.getAttribute('data-id');
+})
+
+const usuarioPrueba = "pepe"
+
 const serverSocket = io()
 
 const plantillaProductsRealTime = `
@@ -43,8 +51,10 @@ if (btnCargar) {
                     price: inputPrecio.value,
                     thumbnail: inputImagen.value,
                     code: inputCodigo.value,
-                    stock: inputStock.value
+                    stock: inputStock.value,
+                    owner: idUsuario
                 }
+                console.log("producto: ", product)
                 serverSocket.emit('nuevoProducto', product)
             }
         }
