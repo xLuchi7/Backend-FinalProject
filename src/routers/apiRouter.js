@@ -14,6 +14,7 @@ import { ErrorHandler } from '../middlewares/ErrorHandler.js';
 import { emailService } from '../services/mailService.js';
 import Swal from 'sweetalert2';
 import { winstonLogger } from '../utils/winstonLogger.js';
+import { productService } from '../services/productService.js';
 
 export const apiRouter = Router();
 
@@ -71,15 +72,13 @@ apiRouter.delete('/api/sesiones', async (req, res) => {
     })
 })
 
-//restablecer contra
-// apiRouter.post('/api/restablecerClick', async (req, res, next) => {
-//     console.log("ENTRE BIEN")
-//     try {
-//         await emailService.sendMail("sessaregoluchi@gmail.com", "prueba")
-//     } catch (error) {
-//         console.log("fallo mandar mail")
-//     }
-// })
+//borrar producto
+apiRouter.get('/api/deleteProduct/:pid', async (req, res) => {
+    const productoBorrado = await productService.borrarProducto(req.params.pid)
+    console.log("prodcuto borrado: ", productoBorrado)
+    res.redirect('/realtimeproducts')
+})
+
 apiRouter.post('/api/cambiarContrasenia/:uid', async (req, res, next) => {
     try {
         const datos = req.body

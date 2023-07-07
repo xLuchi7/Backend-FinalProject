@@ -166,8 +166,6 @@ viewsRouter.get('/cambiarContrasenia/:uid', async (req, res) => {
 })
 
 viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
-    const num = randomUUID()
-    console.log(num)
     const productos = await productService.obtenerProductos()
     let usuario
     if(req.user.role == "admin" || req.user.role == "premium"){

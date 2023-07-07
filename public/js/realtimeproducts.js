@@ -4,7 +4,11 @@ document.addEventListener('DOMContentLoaded', function(){
     idUsuario = elemento.getAttribute('data-id');
 })
 
-const usuarioPrueba = "pepe"
+let productos
+document.addEventListener('DOMContentLoaded', function(){
+    let elemento = document.getElementById('productos');
+    productos = elemento.getAttribute('data-id');
+})
 
 const serverSocket = io()
 

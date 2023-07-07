@@ -33,6 +33,10 @@ class ProductService{
         const producto = await productRepository.guardar(product)
         return producto
     }
+    async borrarProducto(id){
+        const product = await productRepository.borrarProductoPorId(id)
+        return product
+    }
 }
 
 export const productService = new ProductService()

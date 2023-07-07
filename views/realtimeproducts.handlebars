@@ -1,6 +1,5 @@
 <h1>Real Time Products</h1>
 
-
 {{#if usuario}}
     <h2>Cargar Producto Nuevo: </h2>
     Titulo: <input id="inputTitulo" type="text"><br>
@@ -14,12 +13,20 @@
     Solo un Administrador puede crear productos
 {{/if}}
 
-<p>Id de usuario: {{idUsuario}}</p>
-
 <div id="myElemento" data-id="{{idUsuario}}" ></div>
+<div id="productos" data-id="{{todosProductos}}" ></div>
 
-<h2>Productos en tiempo real: </h2>
-<div id="realtime"></div>
+<h2>Productos en tiempo real: </h2> 
+
+{{#if usuario}}
+    <ul>
+        {{#each productos}}
+            <li>{{this.title}}: $ {{this.price}} <a href="/api/deleteProduct/{{this._id}}">Eliminar Producto</a></li>
+        {{/each}}
+    </ul> 
+{{else}}
+    <div id="realtime"></div>
+{{/if}}
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/realtimeproducts.js"></script>
