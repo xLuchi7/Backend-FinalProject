@@ -141,24 +141,61 @@ viewsRouter.get('/profile', autenticacion, (req, res) => {
     })
 })
 
-viewsRouter.get('/mailEnviado', async (req, res) => {
-    const mail = req.user.email
-    // const numero= Math.floor(Math.random() * 1000000)
-    // const numeroRandom = String(numero).padStart(6, "0")
-    // const string = "Los digitos son: "+ numeroRandom
-    // console.log(string)
-    //await emailService.sendMail("sessaregoluchi@gmail.com", string)
-    const id = await usuariosService.buscarIdDeUsuario(req.user)
-    console.log("el id es: ", id)
-    await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}`)
-    res.render('mailEnviadoRestablecer', { 
+viewsRouter.get('/ingresarMail', async (req, res) => {
+    res.render('ingresarMail', { 
         pageTitle: "Restablecer Contraseña",
-        email: mail
     })
+})
+
+viewsRouter.get('/mailEnviado', async (req, res) => {
+    if(req.user){
+        const mail = req.user.email
+        // const numero= Math.floor(Math.random() * 1000000)
+        // const numeroRandom = String(numero).padStart(6, "0")
+        // const string = "Los digitos son: "+ numeroRandom
+        // console.log(string)
+        //await emailService.sendMail("sessaregoluchi@gmail.com", string)
+        const id = await usuariosService.buscarIdDeUsuario(req.user)
+        console.log("el id es: ", id)
+        await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}`)
+        res.render('mailEnviadoRestablecer', { 
+            pageTitle: "Restablecer Contraseña",
+            email: mail
+        })
+    }else{
+        console.log("llego el mail: ", req.body)
+        res.render('mailEnviadoRestablecer', { 
+            pageTitle: "Restablecer Contraseña",
+            email: req.body
+        })
+    }
+})
+
+viewsRouter.get('/enviarEmailSinLogin/:email', async (req, res) => {
+    console.log("llego el mail: ", req.params.email)
+    const usuario = await usuariosService.existeEmail(req.params.email)
+    console.log("usuario completo: ", usuario)
+    if(usuario == false){
+       // alert("No se encontro ese email")
+        res.sendStatus(404)
+    }else{
+        //const id = await usuariosService.buscarIdDeUsuario(usuario)
+        console.log("el id es: ", usuario._id)
+        await emailService.sendMail(usuario.email, `http://localhost:8080/cambiarContrasenia/${usuario._id}`)
+        res.sendStatus(200)
+        //alert("Se envio un mail a:"+ req.params.email +"para restablecer la contraseña")
+    }
+    //res.sendStatus(200)
+
+    // res.render('mailEnviadoRestablecer', { 
+    //     pageTitle: "Restablecer Contraseña",
+    //     email: req.params.email
+    // })      
 })
 
 viewsRouter.get('/cambiarContrasenia/:uid', async (req, res) => {
     console.log("necesito: ", req.params.uid)
+
     res.render('contraNueva', { 
         pageTitle: "Cambio De Contraseña",
         idMandado: req.params.uid

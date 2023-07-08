@@ -18,6 +18,10 @@ class UsuariosRepository{
     async buscarIdDeUsuario(usuario){
         return await this.dao.buscarIdDeUsuario(usuario)
     }
+
+    async existeEmail(email){
+        return await this.dao.existeEmail(email)
+    }
 }
 
 export const usuariosRepository = new UsuariosRepository(usuarioDao)

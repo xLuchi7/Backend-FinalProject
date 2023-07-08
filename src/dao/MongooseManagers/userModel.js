@@ -60,6 +60,14 @@ class usersManager{
         const id = usuarioEncontrado._id
         return id
     }
+    async existeEmail(gmail){
+        const usuario = await this.#usersDB.findOne({email: gmail})
+        if(!usuario){
+            return false
+        }else{
+            return usuario
+        }
+    }
 }
 
 export const UsersMongooseManager = new usersManager()

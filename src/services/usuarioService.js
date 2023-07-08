@@ -36,6 +36,11 @@ class UsuariosService{
         const id = await usuariosRepository.buscarIdDeUsuario(usuario)
         return id
     }
+
+    async existeEmail(email){
+        const usuario = await usuariosRepository.existeEmail(email)
+        return usuario
+    }
 }
 
 export const usuariosService = new UsuariosService()
