@@ -2,8 +2,7 @@ const buttonAddToCart = document.querySelector("#addProd")
 
 if (buttonAddToCart) {
     buttonAddToCart.addEventListener(
-        'click', 
-        evento => {
+        'click', async evento => {
             const carritoID = document.querySelector("#cartID")
             const prodID = document.querySelector("#prodID")
     

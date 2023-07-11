@@ -1,0 +1,14 @@
+paths:
+  /cart:
+    get:
+      summary: Ver los productos que estan en el carrito
+      tags:
+        - Carrito
+      requestBody:
+        required: false
+      responses:
+        "201":
+          description: Se desplego exitosamente el carrito.
+          content: 
+            schema:
+              $ref: '#/components/schemas/Carrito'

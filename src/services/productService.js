@@ -37,6 +37,9 @@ class ProductService{
         const product = await productRepository.borrarProductoPorId(id)
         return product
     }
+    // async buscarProductosDelOwner(id){
+
+    // }
 }
 
 export const productService = new ProductService()

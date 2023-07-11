@@ -1,0 +1,19 @@
+paths:
+  /carrito/cid/producto/pid:
+    post:
+      summary: Agrega un producto al carrito.
+      tags:
+        - Carrito
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Carrito'
+      responses:
+        "201":
+          description: Se agrego exitosamente el producto al carrito.
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrito'

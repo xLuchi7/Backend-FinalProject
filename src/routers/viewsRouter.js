@@ -43,16 +43,18 @@ viewsRouter.get('/products', async (req,res) => {
 viewsRouter.get('/products/product/:pid', async (req, res, next) => { 
     try {
         const product = await productService.obtenerUnProducto(req.params.pid);
-        let usuario
-        if(req.user.role == "user"){
-            usuario = true
-        }else{
-            usuario = false
+        let user = false
+        let usuario = false
+        if(req.user){
+            user = req.user
+            if(req.user.role == "user"){
+                usuario = true
+            }
         }
         res.render('oneProduct', {
             pageTitle: 'Product',
             product,
-            user: req.user,
+            user,
             usuario
         })
     } catch (error) {
@@ -204,17 +206,36 @@ viewsRouter.get('/cambiarContrasenia/:uid', async (req, res) => {
 
 viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
     const productos = await productService.obtenerProductos()
-    let usuario
-    if(req.user.role == "admin" || req.user.role == "premium"){
-        usuario = true
-    }else{
-        usuario = false
+    let admin = false
+    let premium = false
+    if(req.user.role == "admin"){
+        admin = true
+        premium = true
+    }
+    if(req.user.role == "premium"){
+        premium = true
+        //admin = true
     }
     const idUsuario = await usuariosService.buscarIdDeUsuario(req.user)
+    let productosDelOwner = []
+    if(premium == true){
+        const productos = await productService.obtenerProductos()
+        let cont = 0
+        for (let i = 0; i < productos.length; i++) {
+            if(productos[i].owner == idUsuario){
+                productosDelOwner[cont] = productos[i]
+                cont++
+            }
+        }
+        console.log("productos q le pertenecen: ", productosDelOwner)
+    }
+
     res.render('realtimeproducts', { 
         pageTitle: 'RealTime',
         productos,
-        usuario,
+        admin,
+        premium,
+        productosDelOwner,
         idUsuario
     })
 })

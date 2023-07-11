@@ -1,0 +1,47 @@
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - price
+        - thumbnail
+        - code
+        - stock
+        - owner
+      properties:
+        id:
+          type: string
+          description: Id autogenerado del producto.
+        title:
+          type: string
+          description: Titulo del producto.
+        description:
+          type: string
+          description: Descripcion del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        thumbnail:
+          type: string
+          description: Link de la foto del producto.
+        code:
+          type: number
+          description: Codigo del producto.
+        stock:
+          type: number
+          description: Stock del producto.
+        owner:
+          type: string
+          description: Id del creador del producto
+      example:
+         id: 648a7581c1a8c9a008f71437
+         title: Monitor Acer Gamer
+         desciption: 144hz 1ms
+         price: 140000
+         thumbnail: http://photo.url.png
+         code: 4
+         stock: 12
+         owner: 6478020a97001f662eafb151

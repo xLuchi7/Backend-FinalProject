@@ -1,0 +1,29 @@
+components:
+  schemas:
+    Carrito:
+      type: object
+      required:
+        - id
+        - products
+      properties:
+        id:
+          type: string
+          description: Id autogenerado del Carrito
+        products:
+          type: array
+          description: Contiene el ID y cantidad de cada producto que esta en el carrito
+          items:
+            type: object
+            properties:
+              idProducto:
+                type: string
+                description: ID del producto
+              quantity:
+                type: number
+                description: Cantidad de unidades del producto
+      example:
+        id: 648a7581c1a8c9a008f71437
+        products:
+            idProducto: 647aabb7e01eb7fa1b2bcd3b
+            quantity: 2
+         

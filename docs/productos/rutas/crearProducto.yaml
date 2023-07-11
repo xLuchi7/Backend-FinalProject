@@ -1,0 +1,19 @@
+paths:
+  /realtimeproducts:
+    post:
+      summary: Crea un producto nuevo (solo disponible para administradores)
+      tags:
+        - Productos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "201":
+          description: Producto Creado Exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'

@@ -1,6 +1,6 @@
 <h1>Real Time Products</h1>
 
-{{#if usuario}}
+{{#if premium}}
     <h2>Cargar Producto Nuevo: </h2>
     Titulo: <input id="inputTitulo" type="text"><br>
     Descripcion: <input id="inputDescripcion" type="text"><br>
@@ -18,14 +18,21 @@
 
 <h2>Productos en tiempo real: </h2> 
 
-{{#if usuario}}
+{{#if admin}}
     <ul>
         {{#each productos}}
             <li>{{this.title}}: $ {{this.price}} <a href="/api/deleteProduct/{{this._id}}">Eliminar Producto</a></li>
         {{/each}}
     </ul> 
 {{else}}
-    <div id="realtime"></div>
+    {{#if premium}}
+        <h3>Productos que pertenecen al Usuario: </h3>
+        {{#each productosDelOwner}}
+            <li>{{this.title}}: $ {{this.price}} <a href="/api/deleteProduct/{{this._id}}">Eliminar Producto</a></li>
+        {{/each}}
+    {{else}}
+        <div id="realtime"></div>
+    {{/if}}
 {{/if}}
 
 <script src="/socket.io/socket.io.js"></script>

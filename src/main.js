@@ -31,6 +31,7 @@ import { Product } from './models/entidades/Product.js';
 import { nextTick } from 'process';
 import { logger } from './middlewares/logger.js';
 import { winstonLogger } from './utils/winstonLogger.js';
+import { docsRouter } from './routers/documentacionRouter.js';
 
 await conectar()
 
@@ -125,3 +126,4 @@ io.on('connection', async clientSocket => {
 app.use('/', apiRouter)
 //app.use(ErrorHandler)
 app.use('/', viewsRouter)
+app.use('/', docsRouter)

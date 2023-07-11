@@ -1,31 +1,31 @@
 <h1>PRODUCTOS: </h1>
 <div id="products"></div>
 {{#if hayArray}}
-<ul>
-    {{#each array}}
-    <li><a href="/products/product/{{this._id}}">{{this.title}}</a>: $ {{this.price}}</li>
-    {{/each}}
-</ul>
+    <ul>
+        {{#each array}}
+        <li><a href="/products/product/{{this._id}}">{{this.title}}</a>: $ {{this.price}}</li>
+        {{/each}}
+    </ul>
 {{else}}
-array vacio...
+    array vacio...
 {{/if}}
 {{#if hasPrevPage}}
-<a href="/products/?limit={{limit}}&page={{prevPage}}&sort={{sortValue}}">Prev</a>
+    <a href="/products/?limit={{limit}}&page={{prevPage}}&sort={{sortValue}}">Prev</a>
 {{/if}}
 [{{page}}]
 {{#if hasNextPage}}
-<a href="/products/?limit={{limit}}&page={{nextPage}}&sort={{sortValue}}">Next</a>
+    <a href="/products/?limit={{limit}}&page={{nextPage}}&sort={{sortValue}}">Next</a>
 {{/if}}
 <br>
 {{#if user}}
-<h4>Nombre: {{user.first_name}}</h4>
-<h4>Apellido: {{user.last_name}}</h4>
-<h4>Email: {{user.email}}</h4>
-<h4>Cart ID: {{user.cartID}}</h4>
+    <h4>Nombre: {{user.first_name}}</h4>
+    <h4>Apellido: {{user.last_name}}</h4>
+    <h4>Email: {{user.email}}</h4>
+    <h4>Cart ID: {{user.cartID}}</h4>
 {{else}}
-<br>
-<a href="/login"><button>Iniciar Sesion</button></a>
-<a href="/register"><button>Registrarse</button></a>
+    <br>
+    <a href="/login"><button>Iniciar Sesion</button></a>
+    <a href="/register"><button>Registrarse</button></a>
 {{/if}}
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/products.js"></script>
