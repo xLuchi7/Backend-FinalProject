@@ -14,6 +14,8 @@ import { autenticacion } from '../utils/autenticacion.js';
 import { redireccion } from '../utils/redireccion.js';
 import { yaLogueado } from '../utils/yaLogueado.js';
 import { randomUUID } from 'crypto';
+import { entregarCarritosInvalidos, entregarCarritosValidos } from '../../test/testCarts.js';
+import { entregarSesionesInvalidos, entregarSesionesValidos } from '../../test/testSessions.js';
 
 export const viewsRouter = Router();
 
@@ -260,4 +262,16 @@ viewsRouter.get('/mockingproducts', (req, res) => {
     const products = entregarProductosValidos()
     //const products = entregarProductosInvalidos()
     res.json(products)
+})
+
+viewsRouter.get('/mockingcarts', (req, res) => {
+    const carritos = entregarCarritosValidos()
+    //const carritos = entregarCarritosInvalidos()
+    res.json(carritos)
+})
+
+viewsRouter.get('/mockingsessions', (req, res) => {
+    const sesiones = entregarSesionesValidos()
+    //const carritos = entregarSesionesInvalidos()
+    res.json(sesiones)
 })

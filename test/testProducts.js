@@ -7,11 +7,11 @@ function randomNumbers(min, max){
 
 function crearProductoMockValido(){
     return new Product({
-        title: faker.lorem.words(10),
-        description: faker.lorem.words(20),
+        title: faker.lorem.words(1),
+        description: faker.lorem.words(3),
         price: randomNumbers(1, 200000),
-        thumbnail: faker.lorem.words(50),
-        description: faker.lorem.words(20),
+        thumbnail: faker.lorem.words(5),
+        description: faker.lorem.words(4),
         code: randomNumbers(1, 999),
     })
 }
