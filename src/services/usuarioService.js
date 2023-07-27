@@ -15,7 +15,9 @@ class UsuariosService{
             age: datosUsuario.age,
             password: hashear(datosUsuario.password),
             cartID: id,
-            role: validarRol(datosUsuario.email)
+            role: validarRol(datosUsuario.email),
+            last_connection: new Date().toLocaleString(),
+            documents: undefined
         })
         await usuariosRepository.createUser(nuevoUsuario)
         return nuevoUsuario
@@ -40,6 +42,16 @@ class UsuariosService{
     async existeEmail(email){
         const usuario = await usuariosRepository.existeEmail(email)
         return usuario
+    }
+
+    async actualizarUltimoLogout(usuario){
+        const usuarioActualizado = await usuariosRepository.actualizarUltimoLogout(usuario)
+        return usuarioActualizado
+    }
+
+    async agregarDocumento(id, nombre, link){
+        const usuarioActualizado = await usuariosRepository.agregarDocumento(id, nombre, link)
+        return usuarioActualizado
     }
 }
 

@@ -1,15 +1,15 @@
 import express, { Router } from 'express';
-import { ProductManager } from '../dao/LocalStorage/ProductManager.js';
-import { Product } from '../models/entidades/Product.js';
+import { ProductManager } from '../../dao/LocalStorage/ProductManager.js';
+import { Product } from '../../models/entidades/Product.js';
 import { randomUUID } from 'crypto';
-import { ProductMongooseManager } from '../dao/MongooseManagers/ProductMongooseManager.js';
-import { cartMongooseManager } from '../dao/MongooseManagers/CartManager.js';
+import { ProductMongooseManager } from '../../dao/MongooseManagers/ProductMongooseManager.js';
+import { cartMongooseManager } from '../../dao/MongooseManagers/CartManager.js';
 
-export const productsRouter = Router();
+export const jsonProductsRouter = Router();
 
 const productsManager = new ProductManager('./database/products.json');
 
-productsRouter.get('/productss', async (req, res, next) => { 
+jsonProductsRouter.get('/products', async (req, res, next) => { 
     try {
         const cantProducts = await ProductMongooseManager.getCantProducts(req.query.limit);
         res.json(cantProducts);
@@ -17,7 +17,7 @@ productsRouter.get('/productss', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
-productsRouter.get('/productss/:pid', async (req, res, next) => { 
+jsonProductsRouter.get('/products/:pid', async (req, res, next) => { 
     try {
         const product = await ProductMongooseManager.obtenerSegunId(req.params.pid);
         res.json(product);
@@ -25,7 +25,7 @@ productsRouter.get('/productss/:pid', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
-productsRouter.post('/products', async (req, res, next) => { 
+jsonProductsRouter.post('/products', async (req, res, next) => { 
     try {
         const product = new Product({
             title: "PC GAMER",
@@ -42,7 +42,7 @@ productsRouter.post('/products', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     } 
 })
-productsRouter.put('/products/:pid', async (req, res, next) => { 
+jsonProductsRouter.put('/products/:pid', async (req, res, next) => { 
     let productoNuevo
     try {
         productoNuevo = new Product({
@@ -64,7 +64,7 @@ productsRouter.put('/products/:pid', async (req, res, next) => {
         res.status(404).json({ message: error.message })
     }
 })
-productsRouter.delete('/products/:pid', async (req, res, next) => { 
+jsonProductsRouter.delete('/products/:pid', async (req, res, next) => { 
     try {
         const borrado = await ProductMongooseManager.borrarProductoPorId(req.params.pid)
         res.json(borrado)

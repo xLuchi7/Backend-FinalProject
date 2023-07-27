@@ -1,6 +1,4 @@
 import express, { Router } from 'express';
-import { productsRouter } from './productsRouter.js';
-import { cartRouter } from './cartRouter.js';
 import { autenticacionGithub, autenticacionGithub_CB, autenticacionUserPass, passportInitialize, passportSession } from '../middlewares/passport.js';
 import { postSessionsController } from '../controllers/sessionController.js';
 import { cartMongooseManager } from '../dao/MongooseManagers/CartManager.js';
@@ -15,6 +13,8 @@ import { emailService } from '../services/mailService.js';
 import Swal from 'sweetalert2';
 import { winstonLogger } from '../utils/winstonLogger.js';
 import { productService } from '../services/productService.js';
+import multer from 'multer';
+import { jsonRouter } from './jsonRouter/jsonRouter.js';
 
 export const apiRouter = Router();
 
@@ -28,8 +28,7 @@ apiRouter.use(passportInitialize, passportSession)
 apiRouter.use(express.json())
 apiRouter.use(express.urlencoded({extended: true}))
 
-apiRouter.use('/', productsRouter)
-apiRouter.use('/', cartRouter)
+apiRouter.use('/', jsonRouter)
 
 //login post
 apiRouter.post('/api/sesiones', autenticacionUserPass, postSessionsController,  async (req, res) => {
@@ -67,6 +66,9 @@ apiRouter.delete('/api/sesiones', async (req, res) => {
     //console.log("entre")
     winstonLogger.info("usuario a deslogear: "+req.user.email)
 
+    const nuevaData = await usuariosService.actualizarUltimoLogout(req.user)
+    console.log(nuevaData)
+
     req.logOut(err => {
         res.sendStatus(200)
     })
@@ -100,6 +102,30 @@ apiRouter.post('/api/cambiarContrasenia/:uid', async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+})
+
+let nombreParaGuardarElArchivo
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './static/images')
+    },
+    filename: function(req, file, cb){
+        nombreParaGuardarElArchivo = Date.now() + '-' + Math.round(Math.random() * 1E9) + '-' + file.originalname
+        cb(null, nombreParaGuardarElArchivo)
+    }
+})
+
+const extractor = multer({ storage })
+const extraerFoto = extractor.single('document')
+
+//post de documento
+apiRouter.post('/users/:uid/documents', extraerFoto, async (req, res, next) => {
+    console.log("nombre: ", req.file.originalname)
+    console.log("link: ", nombreParaGuardarElArchivo)
+    console.log("uid: ", req.params.uid)
+    const usuarioActualizado = await usuariosService.agregarDocumento(req.params.uid, req.file.originalname, nombreParaGuardarElArchivo)
+    console.log("actualizado: ", usuarioActualizado)
+    res.status(201).json(req.file)
 })
 
 //login con github

@@ -35,7 +35,7 @@ import { docsRouter } from './routers/documentacionRouter.js';
 
 await conectar()
 
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,8 +46,9 @@ app.set('views', './views')
 app.set('view engine', 'handlebars')
 
 app.use(express.static('./public'))
+app.use('/', express.static('./static/images'))
 
-const server = app.listen(8080);
+export const server = app.listen(8080);
 
 const io = new SocketIOServer(server)
 

@@ -22,6 +22,15 @@ class UsuariosRepository{
     async existeEmail(email){
         return await this.dao.existeEmail(email)
     }
+
+    async actualizarUltimoLogout(usuario){
+        return await this.dao.actualizarUltimoLogout(usuario)
+    }
+
+    async agregarDocumento(id, nombre, link){
+        const usuarioActualizado = await this.dao.agregarDocumento(id, nombre, link)
+        return usuarioActualizado
+    }
 }
 
 export const usuariosRepository = new UsuariosRepository(usuarioDao)

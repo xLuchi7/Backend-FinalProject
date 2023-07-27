@@ -22,24 +22,32 @@ export const viewsRouter = Router();
 viewsRouter.use(express.json())
 viewsRouter.use(express.urlencoded({extended: true}))
 
-viewsRouter.get('/products', async (req,res) => {
-    const result = await productService.obtenerPaginado(req.query)
+viewsRouter.get('/', (req, res, next) => {
+    res.redirect('/products')
+})
 
-    res.render('products', { 
-        pageTitle: 'Products',
-        hayArray: result.docs.length > 0,
-        array: result.docs,
-        limit: result.limit,
-        page: result.page,
-        totalPages: result.totalPages,
-        hasNextPage: result.hasNextPage,
-        nextPage: result.nextPage,
-        hasPrevPage: result.hasPrevPage,
-        prevPage: result.prevPage,
-        pagingCounter: result.pagingCounter,
-        sortValue: req.query.sort,
-        user: req.user,
-    })
+viewsRouter.get('/products', async (req,res, next) => {
+    try {
+        const result = await productService.obtenerPaginado(req.query)
+
+        res.render('products', { 
+            pageTitle: 'Products',
+            hayArray: result.docs.length > 0,
+            array: result.docs,
+            limit: result.limit,
+            page: result.page,
+            totalPages: result.totalPages,
+            hasNextPage: result.hasNextPage,
+            nextPage: result.nextPage,
+            hasPrevPage: result.hasPrevPage,
+            prevPage: result.prevPage,
+            pagingCounter: result.pagingCounter,
+            sortValue: req.query.sort,
+            user: req.user,
+        })
+    } catch (error) {
+        next(error)
+    }
 })
 
 viewsRouter.get('/products/product/:pid', async (req, res, next) => { 
@@ -64,7 +72,8 @@ viewsRouter.get('/products/product/:pid', async (req, res, next) => {
     }
 })
 
-viewsRouter.get('/carrito/:cid/producto/:pid', async (req, res) => { 
+viewsRouter.get('/carrito/:cid/producto/:pid', autenticacion, async (req, res) => { 
+    //agregar producto al carrito
     const product = await productService.obtenerUnProducto(req.params.pid)
     const cart = await cartService.agregarProductoACarrito(req.params.cid, req.params.pid)
     let usuario

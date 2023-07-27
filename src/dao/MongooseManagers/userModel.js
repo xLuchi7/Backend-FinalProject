@@ -9,7 +9,9 @@ const usuarioSchema = new mongoose.Schema({
     age: { type: Number },
     password: { type: String },
     cartID: { type: String, unique: true },
-    role: { type: String }
+    role: { type: String },
+    last_connection: { type: String },
+    documents: { type: Array }
 }, { versionKey: false })
 
 export const usuarioModel = mongoose.model('usuarios', usuarioSchema)
@@ -42,6 +44,8 @@ class usersManager{
                 password: hashear(contra),
                 cartID: userViejo.cartID,
                 role: userViejo.role,
+                last_connection: userViejo.last_connection,
+                documents: userViejo.documents
             })
             console.log("Nuevo usuario: ", newUser)
             if(newUser.password == userViejo.password){
@@ -67,6 +71,38 @@ class usersManager{
         }else{
             return usuario
         }
+    }
+    async actualizarUltimoLogout(usuario){
+        const nuevoUsuario = new User({
+            first_name: usuario.first_name,
+            last_name: usuario.last_name,
+            email: usuario.email,
+            age: usuario.age,
+            password: usuario.password,
+            cartID: usuario.cartID,
+            role: usuario.role,
+            last_connection: new Date().toLocaleString(),
+            documents: usuario.documents
+        })
+        await this.#usersDB.updateOne(usuario, nuevoUsuario)
+        return nuevoUsuario
+    }
+    async agregarDocumento(id, nombre, link){
+        const usuarioViejo = await this.#usersDB.findById(id).lean()
+        let usuario = await this.#usersDB.findById(id).lean()
+        if(usuario.documents){
+            await usuario.documents.push({ name: nombre, reference: link })
+        }else{
+            usuario = {
+                ...usuarioViejo,
+                documents: {
+                    name: nombre,
+                    reference: link
+                }
+            }
+        }
+        await this.#usersDB.updateOne(usuarioViejo, usuario)
+        return usuario
     }
 }
 
