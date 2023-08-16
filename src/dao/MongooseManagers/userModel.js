@@ -90,6 +90,7 @@ class usersManager{
             last_connection: formatDate,
             documents: usuario.documents
         })
+        //
         await this.#usersDB.updateOne(usuario, nuevoUsuario)
         return nuevoUsuario
     }
