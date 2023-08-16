@@ -1,8 +1,8 @@
 export function verificarFecha(usuario){
     const fechaaLimite = new Date()
     fechaaLimite.setHours(fechaaLimite.getHours()-3)
-    fechaaLimite.setDate(fechaaLimite.getDate()-2)
-    //fechaaLimite.setMinutes(fechaaLimite.getMinutes()-3)
+    //fechaaLimite.setDate(fechaaLimite.getDate()-2)
+    fechaaLimite.setDate(fechaaLimite.getDate()-3)
     console.log("limite: ", fechaaLimite)
     //console.log("last connection: ", usuario.last_connection)
     //const fechaParaComparar = fechaaLimite.toLocaleString()
