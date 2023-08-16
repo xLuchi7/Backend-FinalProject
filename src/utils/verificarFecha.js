@@ -7,9 +7,10 @@ export function verificarFecha(usuario){
     //console.log("last connection: ", usuario.last_connection)
     //const fechaParaComparar = fechaaLimite.toLocaleString()
     //console.log("la fecha limite es: ", fechaParaComparar)
-    console.log("UT: ", usuario.last_connection)
-    const fechaConvertida = new Date(usuario.last_connection)
-    fechaConvertida.setHours(fechaConvertida.getHours()-3)
+    const lastConnection = usuario.last_connection
+    console.log("UT: ", lastConnection)
+    const fechaConvertida = new Date(lastConnection)
+    //fechaConvertida.setHours(fechaConvertida.getHours()-3)
     console.log("convertida: ", fechaConvertida)
     if(fechaaLimite > fechaConvertida){
         console.log("este tiene q ser borrado")
