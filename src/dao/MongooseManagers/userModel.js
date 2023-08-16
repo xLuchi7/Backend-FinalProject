@@ -81,7 +81,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: new Date().toLocaleString(),
+            last_connection: new Date().toLocaleTimeString(),
             documents: usuario.documents
         })
         await this.#usersDB.updateOne(usuario, nuevoUsuario)
