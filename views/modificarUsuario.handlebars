@@ -1,0 +1,34 @@
+<div id="myElemento" data-id="{{idUsuario}}" ></div>
+
+<h1>Modificar Usuario</h1>
+<p>Nombre completo: {{user.first_name}} {{user.last_name}}</p>
+<p>Correo electronico: {{user.email}}</p>
+<p>Edad: {{user.age}}</p>
+<p>Rol: {{user.role}}</p>
+<div id="divModificar">
+    <button id="btnMoficarRol">Modificar el rol a:</button>
+    {{#if esUsuario}}
+        <p>Premium</p>
+    {{else}}
+        <p>User</p>
+    {{/if}}
+</div>
+<script>
+    const div = document.getElementById("divModificar")
+    div.style.display = "flex"
+    div.style.flexDirection = "row"
+    div.style.height = "30px"
+    div.style.alignItems = "center"
+    const btn = document.getElementById("btnMoficarRol")
+    btn.style.marginRight = "6px"
+</script>
+<p>Cart ID: {{user.cartID}}</p>
+<p>Ultima Conexion: {{user.last_connection}}</p>
+
+<button id="btnEliminarUsuario">Eliminar Usuario</button><br><br>
+
+<button><a href="/products">Ir a Productos</a></button><br><br>
+<button><a href="/cart">Ir al carrito</a></button><br><br>
+<button><a href="/profile">Ir a la vista del perfil</a></button>
+
+<script src="/js/modificarUsuario.js"></script>

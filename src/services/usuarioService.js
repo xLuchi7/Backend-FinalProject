@@ -26,7 +26,6 @@ class UsuariosService{
     async cambiarContra(contra, confirmar, id){
         let usuarioActualizado
         if(contra == confirmar){
-            console.log("entre al usuarioService")
             usuarioActualizado =  await usuariosRepository.cambiarContra(contra, id)
         }else{
             throw new Error("Las contraseñas no coinciden")
@@ -52,6 +51,36 @@ class UsuariosService{
     async agregarDocumento(id, nombre, link){
         const usuarioActualizado = await usuariosRepository.agregarDocumento(id, nombre, link)
         return usuarioActualizado
+    }
+
+    async buscarPorEmail(email){
+        const usuario = await usuariosRepository.buscarPorEmail(email)
+        return usuario
+    }
+
+    async obtenerTodosLosUsuarios(){
+        const usuarios = await usuariosRepository.obtenerTodosLosUsuarios()
+        return usuarios
+    }
+
+    async borrarUsuarioPorID(id){
+        const usuario = await usuariosRepository.borrarUsuarioPorID(id)
+        return usuario
+    }
+
+    async buscarUsuarioPorID(id){
+        const usuario = await usuariosRepository.buscarUsuarioPorID(id)
+        return usuario
+    }
+
+    async modificarRol(usuarioViejo, usuarioActualizado){
+        const usuario = await usuariosRepository.modificarRol(usuarioViejo, usuarioActualizado)
+        return usuario
+    }
+
+    async actualizarUltimaConexionGithub(usuario){
+        const usuarioNuevo = await usuariosRepository.actualizarUltimaConexionGithub(usuario)
+        return usuarioNuevo
     }
 }
 

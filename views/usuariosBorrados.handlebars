@@ -1,0 +1,7 @@
+<h3>Usuarios borrados con Inactividad de 2 dias o mas: </h3>
+
+{{#each usuariosBorrados}}
+    <li>Nombre: {{this.first_name}} | Email: {{this.email}} | Rol: {{this.role}}</li><br>
+{{/each}}
+
+<button><a href="/profile">Ir a la vista del perfil</a></button>

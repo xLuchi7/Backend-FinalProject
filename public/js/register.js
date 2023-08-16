@@ -36,9 +36,11 @@ if (form instanceof HTMLFormElement) {
             .then(res => res.json())
             
             if (response.estado  !== "error") {
+                alert("Se registro exitosamente")
                 window.location.href = '/profile'
             } else {
                 console.log(response)
+                alert("Error al registrarse, Ingrese datos validos")
             }
         }
     })

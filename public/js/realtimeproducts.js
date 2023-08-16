@@ -42,12 +42,12 @@ if (btnCargar) {
             const inputCodigo = document.querySelector("#inputCodigo")
             const inputStock = document.querySelector("#inputStock")
 
-            if (inputTitulo.value == "" || inputPrecio.value == "") {
+            if (inputTitulo.value == "" || inputDescripcion.value == "" || inputPrecio.value == "" || inputImagen.value == "" || inputCodigo.value == "" || inputStock.value == "") {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Ambos campos deben ser completados'
-                  })
+                    text: 'Todos los campos deben ser completados'
+                })
             }else{
                 const product = {
                     title: inputTitulo.value,
@@ -59,7 +59,24 @@ if (btnCargar) {
                     owner: idUsuario
                 }
                 console.log("producto: ", product)
-                serverSocket.emit('nuevoProducto', product)
+                //serverSocket.emit('nuevoProducto', product)
+                serverSocket.emit('nuevoProducto', product, (response) => {
+                    if(response.success){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Se creo exitosamente el producto'
+                        })
+                        //serverSocket.on("actualizarProductos")
+                        window.location.href = '/realtimeproducts'
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Datos invalidos, No se creo el producto'
+                        })
+                    }
+                })
             }
         }
     )

@@ -7,9 +7,13 @@ import { githubCallbackUrl, githubClientSecret, githubClienteId } from "../confi
 import { validarRol } from "../utils/rol.js";
 import { ErrorHandler } from "./ErrorHandler.js";
 import { ErrorLogin } from "../models/errors/ErrorLogin.js";
+import Swal from 'sweetalert2';
+import { usuariosService } from "../services/usuarioService.js";
+import { User } from "../models/entidades/User.js";
+import { cartMongooseManager } from "../dao/MongooseManagers/CartManager.js";
 
 passport.use('local', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-    let buscado = await usuarioModel.findOne({ email: email }).lean()
+    let buscado = await usuarioModel.findOne({ email: email })
     if(buscado == null){
         buscado = ""
     }
@@ -17,14 +21,16 @@ passport.use('local', new LocalStrategy({ usernameField: 'email' }, async (email
     try {
         existe = validarQueSeanIguales(password, buscado.password)
         if (existe == true) {
-            buscado = {
-                first_name: buscado.first_name,
-                last_name: buscado.last_name,
-                email: buscado.email,
-                age: buscado.age,
-                cartID: buscado.cartID,
-                role: buscado.role,
-            }
+            // buscado = {
+            //     first_name: buscado.first_name,
+            //     last_name: buscado.last_name,
+            //     email: buscado.email,
+            //     age: buscado.age,
+            //     cartID: buscado.cartID,
+            //     role: buscado.role,
+            //     last_connection: buscado.last_connection,
+            //     documents: buscado.documents
+            // }
             done(null, buscado)
         }
     } catch (error) {
@@ -37,14 +43,35 @@ passport.use('github', new GithubStrategy({
     clientSecret: githubClientSecret,
     callbackURL: githubCallbackUrl,
 }, async (accessToken, refreshToken, profile, done) => {
+    console.log("perfil: ", profile)
     let user
-    try {
-        user = await usuarioModel.findOne({ email: profile.username }).lean()
-    } catch (error) {
+    // try {
+    //     console.log("entre al try")
+    //     //user = await usuarioModel.findOne({ email: profile.username })
+    //     user = await usuariosService.buscarPorEmail(profile.username)
+    //     console.log("usuario: ", user)
+    // } catch (error) {
+    //     console.log("entre al try")
+    //     user = new User({
+    //         //first_name: profile.username,
+    //         email: profile.username
+    //     })
+    //     await usuarioModel.create(user)
+    // }
+    user = await usuariosService.buscarPorEmail(profile.username)
+    console.log("usuario: ", user)
+    if(user == null){
+        const cartId = await cartMongooseManager.createNewCart()
         user = {
-            email: profile.username
+            email: profile.username,
+            cartID: cartId,
+            role: "user",
+            last_connection: new Date().toLocaleString(),
         }
         await usuarioModel.create(user)
+    }else{
+        const actualizado = await usuariosService.actualizarUltimaConexionGithub(user)
+        console.log("actualizado: ", actualizado)
     }
     done(null, user)
 }))
@@ -56,5 +83,5 @@ export const passportInitialize = passport.initialize()
 export const passportSession = passport.session()
 
 export const autenticacionUserPass = passport.authenticate('local', { failWithError: true })
-export const autenticacionGithub = passport.authenticate('github', { scope: ['user: email'] })
-export const autenticacionGithub_CB = passport.authenticate('github', { failWithError: true })
+export const autenticacionGithub = passport.authenticate('github', { scope: ['user:email'] })
+export const autenticacionGithub_CB = passport.authenticate('github', { failureRedirect: '/login' /*failWithError: true*/ })

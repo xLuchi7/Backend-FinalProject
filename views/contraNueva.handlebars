@@ -1,16 +1,26 @@
 <body>
-  <h1>Cambio de contraseña</h1>
+  {{#if valida}}
+    <h1>Cambio de contraseña</h1>
 
-  <form action="" id="formNuevaC">
-    <label for="input_contra">Contraseña Nueva: </label> <input id="input_contra" type="password"><br>
-    <label for="input_confirmar">Confirmar Contraseña: </label> <input id="input_confirmar" type="password"><br>
-    <button type="submit">Enviar</button>
-  </form>
+    <form action="" id="formNuevaC">
+      <label for="input_contra">Contraseña Nueva: </label> <input id="input_contra" type="password"><br>
+      <label for="input_confirmar">Confirmar Contraseña: </label> <input id="input_confirmar" type="password"><br>
+      <button type="submit">Enviar</button>
+    </form>
 
-  <div id="myElement" data-id="{{idMandado}}" ></div>
+    <div id="myElement" data-id="{{idMandado}}" ></div>
 
-  <h1>el id es: {{idMandado}}</h1>
+    <div id="miElemento" data-id="{{valida}}" ></div>
 
+    <h1>el id es: {{idMandado}}</h1>
+
+    <h1>hora valida: {{valida}}</h1>
+  {{else}}
+    <script>
+      alert("Time to change password expired")
+      window.location.href = "/products"
+    </script>
+  {{/if}}
   <script src="/js/contraNueva.js"></script>
 </body>
 

@@ -10,7 +10,6 @@ if (mail instanceof HTMLFormElement) {
             input_mail instanceof HTMLInputElement
         ){
             const datos = input_mail.value
-            console.log("aaa", datos)
             const  { status } = await fetch(`/enviarEmailSinLogin/${datos}`, {
                 method: 'GET',
                 headers: {
@@ -24,7 +23,6 @@ if (mail instanceof HTMLFormElement) {
                 //window.location.href = `/mailEnviadoSinLogin/${datos}`
             } else {
                 alert("No se encontro ese email")
-                console.log("error al enviar mail")
             }
         }
     })

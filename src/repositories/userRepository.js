@@ -31,6 +31,36 @@ class UsuariosRepository{
         const usuarioActualizado = await this.dao.agregarDocumento(id, nombre, link)
         return usuarioActualizado
     }
+
+    async buscarPorEmail(email){
+        const usuario = await this.dao.buscarPorEmail(email)
+        return usuario
+    }
+
+    async obtenerTodosLosUsuarios(){
+        const usuarios = await this.dao.obtenerTodosLosUsuarios()
+        return usuarios
+    }
+
+    async borrarUsuarioPorID(id){
+        const usuario = await this.dao.borrarUsuarioPorID(id)
+        return usuario
+    }
+
+    async buscarUsuarioPorID(id){
+        const usuario = await this.dao.buscarUsuarioPorID(id)
+        return usuario
+    }
+
+    async modificarRol(usuarioViejo, usuarioActualizado){
+        const usuario = await this.dao.modificarRol(usuarioViejo, usuarioActualizado)
+        return usuario
+    }
+
+    async actualizarUltimaConexionGithub(usuario){
+        const usuarioNuevo = await this.dao.actualizarUltimaConexionGithub(usuario)
+        return usuarioNuevo
+    }
 }
 
 export const usuariosRepository = new UsuariosRepository(usuarioDao)

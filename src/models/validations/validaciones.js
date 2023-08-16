@@ -46,6 +46,10 @@ export function validarEmail(email){
 }
 
 export function validarPrecio(precio){
+  const esNumero = soloNumeros(precio)
+  if(esNumero == false){
+    throw new ErrorProductoInvalido("el precio debe ser un numero")
+  }
   if(precio < 1){
     throw new ErrorProductoInvalido("el precio debe ser mayor que 0")
   }

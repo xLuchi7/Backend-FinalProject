@@ -15,7 +15,7 @@ if (formLogin instanceof HTMLFormElement) {
                 email: input_email.value,
                 password: input_password.value,
             }
-            const  { status } = await fetch('/api/sesiones', {
+            const response  = await fetch('/api/sesiones', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -23,11 +23,21 @@ if (formLogin instanceof HTMLFormElement) {
                 },
                 body: JSON.stringify(datosUsuario)
             })
-            window.location.href = '/products'
-            // if (status === 201) {
+            .then(res => res.json())
+            
+            if (response.estado  !== "error") {
+                alert("Se inicio sesion existosamente")
+                window.location.href = '/products'
+            } else {
+                console.log(response)
+                alert("Credenciales Invalidas")
+            }
+            // if (response == 201) {
+            //     alert("login BIEN")
             //     window.location.href = '/products'
-            // } else{
-            //     console.log('[login] estado inesperado: ' + status)
+            // }else{
+            //     alert("login MAL")
+            //     console.log("fallo el login")
             // }
         }
     })

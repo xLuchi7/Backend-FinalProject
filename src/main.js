@@ -32,16 +32,32 @@ import { nextTick } from 'process';
 import { logger } from './middlewares/logger.js';
 import { winstonLogger } from './utils/winstonLogger.js';
 import { docsRouter } from './routers/documentacionRouter.js';
+import Swal from 'sweetalert2';
+import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
+import Handlebars from "handlebars"
 
 await conectar()
+//conectar()
 
 export const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+    secret: "SESSION_SECRET",
+    saveUninitialized: false,
+    resave: false,
+    //store: MongoStore.create({mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce'}),
+    store: MongoStore.create({mongoUrl: 'mongodb+srv://luciano:probando22@cluster0.r1ikgz0.mongodb.net/?retryWrites=true&w=majority'}),
+}))
+
+app.use(passportInitialize, passportSession)
+
 app.use(logger)
 
-app.engine('handlebars', engine())
+app.engine('handlebars', engine({
+    handlebars: allowInsecurePrototypeAccess(Handlebars)
+}))
 app.set('views', './views')
 app.set('view engine', 'handlebars')
 
@@ -52,12 +68,13 @@ export const server = app.listen(8080);
 
 const io = new SocketIOServer(server)
 
-app.use(session({
-    store: MongoStore.create({mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce'}),
-    saveUninitialized: false,
-    resave: false,
-    secret: "SESSION_SECRET"
-}))
+// app.use(session({
+//     //store: MongoStore.create({mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce'}),
+//     store: MongoStore.create({mongoUrl: 'mongodb+srv://luciano:probando22@cluster0.r1ikgz0.mongodb.net/?retryWrites=true&w=majority'}),
+//     saveUninitialized: false,
+//     resave: false,
+//     secret: "SESSION_SECRET"
+// }))
 
 //ACA IBA EL LOGIN CON GITHUB
 
@@ -86,14 +103,31 @@ io.on('connection', async clientSocket => {
 
 io.on('connection', async clientSocket => {
     winstonLogger.info("nuevo cliente conectado "+clientSocket.id)
-    clientSocket.on('nuevoProducto', async product => {
+    // clientSocket.on('nuevoProducto', async product => {
+    //     try {
+    //         const producto = new Product(product)
+    //         await productService.guardarProducto(producto)
+    //         io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
+    //     } catch (error) {
+    //         //alert("No se pudo crear el producto")
+    //         console.log("fallo agregar")
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Error',
+    //             text: 'No se pudo crear el producto'
+    //         })
+    //         //ErrorHandler(error)
+    //         //next(error)
+    //     }
+    // })
+    clientSocket.on('nuevoProducto', async (product, callback) => {
         try {
             const producto = new Product(product)
             await productService.guardarProducto(producto)
-            io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
+            //io.sockets.emit('actualizarProductos', await productService.obtenerProductos())
+            callback({ success: true })
         } catch (error) {
-            ErrorHandler(error)
-            //next(error)
+            callback({ success: false, error: "error al crear el producto" })
         }
     })
 

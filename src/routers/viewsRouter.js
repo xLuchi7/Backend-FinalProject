@@ -16,6 +16,10 @@ import { yaLogueado } from '../utils/yaLogueado.js';
 import { randomUUID } from 'crypto';
 import { entregarCarritosInvalidos, entregarCarritosValidos } from '../../test/testCarts.js';
 import { entregarSesionesInvalidos, entregarSesionesValidos } from '../../test/testSessions.js';
+import { validacionHora } from '../utils/validacionHora.js';
+import { codificarHora, compararConHoraActual, decodificarHora } from '../utils/hora.js'
+import { esAdministrador } from '../utils/esAdministrador.js';
+import { verificarFecha } from '../utils/verificarFecha.js';
 
 export const viewsRouter = Router();
 
@@ -72,23 +76,23 @@ viewsRouter.get('/products/product/:pid', async (req, res, next) => {
     }
 })
 
-viewsRouter.get('/carrito/:cid/producto/:pid', autenticacion, async (req, res) => { 
-    //agregar producto al carrito
-    const product = await productService.obtenerUnProducto(req.params.pid)
-    const cart = await cartService.agregarProductoACarrito(req.params.cid, req.params.pid)
-    let usuario
-    if(req.user.role == "user"){
-        usuario = true
-    }else{
-        usuario = false
-    }
-    res.render('oneProduct', {
-        pageTitle: 'Product',
-        product,
-        user: req.user,
-        usuario
-    })
-})
+// viewsRouter.get('/carrito/:cid/producto/:pid', autenticacion, async (req, res) => { 
+//     //agregar producto al carrito
+//     const product = await productService.obtenerUnProducto(req.params.pid)
+//     const cart = await cartService.agregarProductoACarrito(req.params.cid, req.params.pid)
+//     let usuario
+//     if(req.user.role == "user"){
+//         usuario = true
+//     }else{
+//         usuario = false
+//     }
+//     res.render('oneProduct', {
+//         pageTitle: 'Product',
+//         product,
+//         user: req.user,
+//         usuario
+//     })
+// })
 
 viewsRouter.get('/cart/product/:pid', autenticacion,  async (req, res) => { 
     const productoEliminar = await cartService.borrarProductoDelCarrito(req.user.cartID, req.params.pid)
@@ -96,13 +100,14 @@ viewsRouter.get('/cart/product/:pid', autenticacion,  async (req, res) => {
    // console.log("cart id: ", req.user.cartID)
     const productos = await cartService.obtenerProductosDeCarrito(req.user.cartID)
     const total = await cartService.obtenerTotal(productos)
+    res.redirect("/cart")
 
-    res.render('cart', { 
-        pageTitle: "Carrito",
-        user: req.user,
-        productos,
-        total
-    })
+    // res.render('cart', { 
+    //     pageTitle: "Carrito",
+    //     user: req.user,
+    //     productos,
+    //     total
+    // })
 })
 
 viewsRouter.get('/cart', autenticacion, async (req, res) => {
@@ -146,9 +151,13 @@ viewsRouter.get('/register', (req, res) => {
     redireccion(req, res, req.user)
 })
 
-viewsRouter.get('/profile', autenticacion, (req, res) => {
-    //const mail = await emailService.sendMail("sessaregoluchi@gmail.com", "prueba")
-    //console.log(mail)
+viewsRouter.get('/profile', autenticacion, (req, res, next) => {
+    res.render('profile', { 
+        pageTitle: "Perfil", user: req.user
+    })
+})
+
+viewsRouter.get('/api/sesiones/current', autenticacion, (req, res) => {
     res.render('profile', { 
         pageTitle: "Perfil", user: req.user
     })
@@ -168,9 +177,13 @@ viewsRouter.get('/mailEnviado', async (req, res) => {
         // const string = "Los digitos son: "+ numeroRandom
         // console.log(string)
         //await emailService.sendMail("sessaregoluchi@gmail.com", string)
+        //const id = req.user._id
         const id = await usuariosService.buscarIdDeUsuario(req.user)
         console.log("el id es: ", id)
-        await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}`)
+        const hora = new Date()
+        console.log("hora: ", hora)
+        const horaCodificada = codificarHora(hora)
+        await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}/${horaCodificada}`)
         res.render('mailEnviadoRestablecer', { 
             pageTitle: "Restablecer Contraseña",
             email: mail
@@ -193,8 +206,11 @@ viewsRouter.get('/enviarEmailSinLogin/:email', async (req, res) => {
         res.sendStatus(404)
     }else{
         //const id = await usuariosService.buscarIdDeUsuario(usuario)
-        console.log("el id es: ", usuario._id)
-        await emailService.sendMail(usuario.email, `http://localhost:8080/cambiarContrasenia/${usuario._id}`)
+        //console.log("el id es: ", usuario._id)
+        const hora = new Date()
+        console.log("hora: ", hora)
+        const horaCodificada = codificarHora(hora)
+        await emailService.sendMail(usuario.email, `http://localhost:8080/cambiarContrasenia/${usuario._id}/${horaCodificada}`)
         res.sendStatus(200)
         //alert("Se envio un mail a:"+ req.params.email +"para restablecer la contraseña")
     }
@@ -206,12 +222,23 @@ viewsRouter.get('/enviarEmailSinLogin/:email', async (req, res) => {
     // })      
 })
 
-viewsRouter.get('/cambiarContrasenia/:uid', async (req, res) => {
-    console.log("necesito: ", req.params.uid)
+// viewsRouter.get('/cambiarContrasenia/:uid', validacionHora, async (req, res) => {
+//     console.log("necesito: ", req.params.uid)
 
+//     res.render('contraNueva', { 
+//         pageTitle: "Cambio De Contraseña",
+//         idMandado: req.params.uid
+//     })
+// })
+viewsRouter.get('/cambiarContrasenia/:uid/:hora', async (req, res, next) => {
+    const horaDecodificada = decodificarHora(parseInt(req.params.hora))
+    console.log("decodificada:", horaDecodificada)
+    const esHoraValida = compararConHoraActual(parseInt(req.params.hora))
+    console.log("es valida: ", esHoraValida)
     res.render('contraNueva', { 
         pageTitle: "Cambio De Contraseña",
-        idMandado: req.params.uid
+        idMandado: req.params.uid,
+        valida: esHoraValida
     })
 })
 
@@ -248,6 +275,68 @@ viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
         premium,
         productosDelOwner,
         idUsuario
+    })
+})
+
+viewsRouter.get('/modificarUsuario/:uid', esAdministrador, async (req, res, next) => { 
+
+    // const usuario = await usuariosService.buscarUsuarioPorID(req.params.uid)
+    // let esUsuario = false
+    // if(usuario.role == "user"){
+    //     esUsuario = true
+    // }
+    // const idUsuario = await usuariosService.buscarIdDeUsuario(usuario)
+        
+    // res.render('modificarUsuario', { 
+    //     pageTitle: 'Modificar Usuario',
+    //     user: usuario,
+    //     esUsuario,
+    //     idUsuario
+    // })
+    try {
+        const usuario = await usuariosService.buscarUsuarioPorID(req.params.uid)
+        
+        let esUsuario = false
+        if(usuario.role == "user"){
+            esUsuario = true
+        }
+        const idUsuario = await usuariosService.buscarIdDeUsuario(usuario)
+        
+        res.render('modificarUsuario', { 
+            pageTitle: 'Modificar Usuario',
+            user: usuario,
+            esUsuario,
+            idUsuario
+        })
+    } catch (error) {
+        res.redirect("/profile")
+    }
+})
+
+//borrar usuarios que no se conectaron
+viewsRouter.get('/borrarUsuarios', esAdministrador, async (req, res, next) => {
+    const usuarios = await usuariosService.obtenerTodosLosUsuarios()
+    let aBorrar = false
+    let usuariosBorrados = []
+    let cont = 0
+
+    for (let i = 0; i < usuarios.length; i++) {
+        aBorrar = verificarFecha(usuarios[i])
+        if(aBorrar == true){
+            await emailService.sendMail(usuarios[i].email, "Se elimino su cuenta debeido a la inactividad por mas de 2 dias.")
+            usuariosBorrados[cont] =  await usuariosService.borrarUsuarioPorID(usuarios[i]._id)
+            //usuariosBorrados[cont] = usuarios[i]
+            cont++
+        }
+    }
+    console.log("usuarios a borrar: ")
+    for (let i = 0; i < usuariosBorrados.length; i++) {
+        console.log(usuariosBorrados[i])
+    }
+
+    res.render('usuariosBorrados', { 
+        pageTitle: "Usuarios Borrados",
+        usuariosBorrados
     })
 })
 

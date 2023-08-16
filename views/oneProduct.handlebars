@@ -7,15 +7,44 @@
     <li id="prodID">Product ID: {{product._id}}</li>
 </ul>
 
-{{!-- <div id="agregar">
+<div id="myElement" data-id="{{product._id}}" ></div>
 
-</div> --}}
 {{#if usuario}}
-    <button><a href="/carrito/{{user.cartID}}/producto/{{product._id}}">Agregar al carrito</a></button><br><br>
+    {{!-- <button><a href="/carrito/{{user.cartID}}/producto/{{product._id}}">Agregar al carrito</a></button><br><br> --}}
+    <button id="addToCart">Agregar al Carrito</button><br><br>
+    <script>
+        let id
+        document.addEventListener('DOMContentLoaded', function(){
+            const element = document.getElementById('myElement');
+            id = element.getAttribute('data-id');
+        })
+        const btnAddToCart = document.getElementById("addToCart")
+        btnAddToCart.onclick = async () =>{
+            console.log("id: ", id)
+            const response  = await fetch(`/api/addProductToCart/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                //body: JSON.stringify(datos)
+            })
+            console.log("respuesta: ", response)
+            if (response.status == 200) {
+                alert("se agrego el producto al carrito")
+                console.log("se agrego al carro")
+                //window.location.href = `/mailEnviadoSinLogin/${datos}`
+            } else {
+                alert("Error al agregar el producto al carrito")
+                console.log("NO se agrego al carro")
+            }
+        }
+    </script>
 {{else}}
     Solo un usuario puede agregar productos al carrito <br><br>
 {{/if}}
 
-<a href="/products">VOLVER</a>
+<button><a href="/products">VOLVER</a></button><br><br>
+<button><a href="/cart">Ir al carrito</a></button>
 
 <script src="/js/oneProduct.js"></script>

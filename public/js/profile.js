@@ -11,6 +11,7 @@ if (formLogout instanceof HTMLFormElement) {
       })
   
       if (status === 200) {
+        alert("se cerro sesion exitosamente")
         window.location.href = '/login'
       } else {
         console.log("error en el logout "+ status)

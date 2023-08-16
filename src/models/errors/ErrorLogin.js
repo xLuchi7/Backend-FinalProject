@@ -1,7 +1,6 @@
 export class ErrorLogin extends Error {
-    constructor(descripcion){
+    constructor(){
         super()
         this.tipo = "CREDENCIALES INVALIDAS"
-        this.descripcion = descripcion
     }
 }

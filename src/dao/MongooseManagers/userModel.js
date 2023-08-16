@@ -60,12 +60,12 @@ class usersManager{
         return newUser
     }
     async buscarIdDeUsuario(usuario){
-        const usuarioEncontrado = await this.#usersDB.findOne(usuario)
+        const usuarioEncontrado = await this.#usersDB.findOne({email: usuario.email}).lean()
         const id = usuarioEncontrado._id
         return id
     }
     async existeEmail(gmail){
-        const usuario = await this.#usersDB.findOne({email: gmail})
+        const usuario = await this.#usersDB.findOne({email: gmail}).lean()
         if(!usuario){
             return false
         }else{
@@ -103,6 +103,39 @@ class usersManager{
         }
         await this.#usersDB.updateOne(usuarioViejo, usuario)
         return usuario
+    }
+    async buscarPorEmail(emailABuscar){
+        const usuario = await this.#usersDB.findOne({email: emailABuscar}).lean()
+        return usuario
+    }
+    async obtenerTodosLosUsuarios(){
+        const usuarios = await this.#usersDB.find().lean()
+        return usuarios
+    }
+    async borrarUsuarioPorID(id){
+        const usuario = await this.#usersDB.findByIdAndRemove(id)
+        return usuario
+    }
+    async buscarUsuarioPorID(id){
+        const usuario = await this.#usersDB.findById(id).lean()
+        console.log("fallo: ", usuario)
+        return usuario
+    }
+    async modificarRol(usuarioViejo, usuarioActualizado){
+        const usuario = await this.#usersDB.updateOne(usuarioViejo, usuarioActualizado).lean()
+        console.log("adentro del model: ", usuario)
+        return usuario
+    }
+    async actualizarUltimaConexionGithub(usuario){
+        const nuevoUsuario = {
+            email: usuario.email,
+            cartID: usuario.cartID,
+            role: usuario.role,
+            last_connection: new Date().toLocaleString(),
+            documents: usuario.documents
+        }
+        await this.#usersDB.updateOne(usuario, nuevoUsuario)
+        return nuevoUsuario
     }
 }
 

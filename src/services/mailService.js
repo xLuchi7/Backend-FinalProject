@@ -20,7 +20,7 @@ class EmailService{
         const mailConfig = {
             from: "sessaregoluchi7@gmail.com",
             to: destinatario,
-            subject: "Mail para restablecer contraseña",
+            subject: "Venta Gamer",
             text: mensaje
         }
         try {
