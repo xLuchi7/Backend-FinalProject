@@ -79,23 +79,10 @@ class usersManager{
         // console.log("localTime: ", localTime)
         // const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
         // console.log("formatDate: ", formatDate)
-        const userCurrentDateTime = new Date();
-    const userLocalTimeOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZoneName: 'short'
-    };
+        const currentDate = new Date()
+        const localTime = DateTime.now().setZone(currentDate)
+        const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
 
-    const formattedUserCurrentTime = new Intl.DateTimeFormat(
-    undefined, 
-    userLocalTimeOptions
-    ).format(userCurrentDateTime);
-
-    console.log(formattedUserCurrentTime);
 
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
@@ -105,7 +92,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: formattedUserCurrentTime,
+            last_connection: formatDate,
             documents: usuario.documents
         })
         //
