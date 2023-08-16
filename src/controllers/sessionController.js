@@ -18,7 +18,7 @@ export async function postSessionsController(req, res, next) {
                 res.status(201).json(req.user)
             })
             const nuevaData = await usuariosService.actualizarUltimoLogout(req.user)
-            console.log(nuevaData)
+            console.log("nuevaData: ", nuevaData)
         }
     } catch (error) {
         //res.status(404)
