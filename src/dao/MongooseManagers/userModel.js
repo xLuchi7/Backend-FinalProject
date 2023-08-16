@@ -81,6 +81,7 @@ class usersManager{
         // console.log("formatDate: ", formatDate)
         const date = new Date()
         date.setHours(date.getHours()-3)
+        const dateToString = date.toLocaleString()
         //fechaaLimite.setDate(fechaaLimite.getDate()-2)
 
         const nuevoUsuario = new User({
@@ -91,7 +92,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: date,
+            last_connection: dateToString,
             documents: usuario.documents
         })
         //
