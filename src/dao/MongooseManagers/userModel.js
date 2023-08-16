@@ -73,9 +73,9 @@ class usersManager{
         }
     }
     async actualizarUltimoLogout(usuario){
-        const date = new Date()
-        date.getHours(date.setHours()-3)
-        date.toLocaleString()
+        //const date = new Date()
+        //date.getHours(date.setHours()-3)
+        //date.toLocaleString()
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
             last_name: usuario.last_name,
@@ -84,7 +84,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: date,
+            last_connection: new Date().toLocaleTimeString(),
             documents: usuario.documents
         })
         await this.#usersDB.updateOne(usuario, nuevoUsuario)
@@ -130,12 +130,11 @@ class usersManager{
         return usuario
     }
     async actualizarUltimaConexionGithub(usuario){
-        const date = new Date()
-        console.log("date: ", date)
-        date.setHours(date.getHours()-3)
-        date.toLocaleString()
-        console.log("actualizada: ", date)
-        fechaaLimite.setDate(fechaaLimite.getDate()-2)
+        // const date = new Date()
+        // console.log("date: ", date)
+        // date.setHours(date.getHours()-3)
+        // date.toLocaleString()
+        // console.log("actualizada: ", date)
         const nuevoUsuario = {
             email: usuario.email,
             cartID: usuario.cartID,
