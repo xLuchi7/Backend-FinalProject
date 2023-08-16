@@ -77,7 +77,7 @@ class usersManager{
         const currentDate = new Date()
         const ultimaConexion = DateTime.fromJSDate(currentDate)
         console.log("ultimaConexion: ", ultimaConexion)
-        const toString = ultimaConexion.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
+        const toString = ultimaConexion.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ", { zone: 'local' })
         console.log("toString: ", toString)
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
