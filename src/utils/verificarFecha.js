@@ -9,7 +9,7 @@ export function verificarFecha(usuario){
     //console.log("la fecha limite es: ", fechaParaComparar)
     const lastConnection = usuario.last_connection
     console.log("UT: ", lastConnection)
-    const fechaConvertida = new Date(lastConnection)
+    const fechaConvertida = new Date(usuario.last_connection)
     //fechaConvertida.setHours(fechaConvertida.getHours()-3)
     console.log("convertida: ", fechaConvertida)
     if(fechaaLimite > fechaConvertida){
