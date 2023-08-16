@@ -127,11 +127,18 @@ class usersManager{
         return usuario
     }
     async actualizarUltimaConexionGithub(usuario){
+        const date = new Date()
+        console.log("date: ", date)
+        date.setHours(date.getHours()-3)
+        date.toLocaleString()
+        console.log("actualizada: ", date)
+        fechaaLimite.setDate(fechaaLimite.getDate()-2)
         const nuevoUsuario = {
             email: usuario.email,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: new Date().toLocaleString(),
+            //last_connection: new Date().toLocaleString(),
+            last_connection: new Date().toLocaleTimeString(),
             documents: usuario.documents
         }
         await this.#usersDB.updateOne(usuario, nuevoUsuario)

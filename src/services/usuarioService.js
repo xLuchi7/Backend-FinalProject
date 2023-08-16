@@ -16,7 +16,7 @@ class UsuariosService{
             password: hashear(datosUsuario.password),
             cartID: id,
             role: validarRol(datosUsuario.email),
-            last_connection: new Date().toLocaleString(),
+            last_connection: new Date().toLocaleTimeString(),
             documents: undefined
         })
         await usuariosRepository.createUser(nuevoUsuario)
