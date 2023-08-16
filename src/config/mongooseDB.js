@@ -7,7 +7,7 @@ export async function conectar(){
     //await mongoose.connect("mongodb://127.0.0.1:27017/ecommerce")
     //winstonLogger.info("base de datos conectada a ecommerce")
 
-    const uri = "mongodb+srv://luciano:probando22@cluster0.r1ikgz0.mongodb.net/?retryWrites=true&w=majority"
+    const uri = "mongodb+srv://luciano:probando22@cluster0.r1ikgz0.mongodb.net/?retryWrites=true&w=majority&ssl=true"
 
     await mongoose.connect(uri)
 
