@@ -163,6 +163,8 @@ viewsRouter.get('/register', (req, res) => {
 })
 
 viewsRouter.get('/profile', autenticacion, (req, res, next) => {
+    //const date = req.user.last_connection.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
+    //console.log("date: ", date)
     res.render('profile', { 
         pageTitle: "Perfil", user: req.user
     })

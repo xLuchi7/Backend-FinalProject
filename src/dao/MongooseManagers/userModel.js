@@ -74,9 +74,11 @@ class usersManager{
         }
     }
     async actualizarUltimoLogout(usuario){
-        const date = new Date()
-        const dateIso = DateTime.fromISO(date, { zone: "utc" })
-        const ultimaConexion = dateIso.toLocal()
+        const currentDate = new Date()
+        const ultimaConexion = DateTime.fromJSDate(currentDate)
+        console.log("ultimaConexion: ", ultimaConexion)
+        const toString = ultimaConexion.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
+        console.log("toString: ", toString)
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
             last_name: usuario.last_name,
@@ -85,7 +87,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: ultimaConexion.toString(),
+            last_connection: toString,
             documents: usuario.documents
         })
         await this.#usersDB.updateOne(usuario, nuevoUsuario)

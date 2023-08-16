@@ -14,11 +14,11 @@ export async function postSessionsController(req, res, next) {
         let existe
         existe = validarQueSeanIguales(req.body.password, buscado.password)
         if (existe == true) {
-            req.logIn(buscado, error => {
+            const nuevaData = await usuariosService.actualizarUltimoLogout(buscado)
+            console.log("nuevaData: ", nuevaData)
+            req.logIn(nuevaData, error => {
                 res.status(201).json(req.user)
             })
-            const nuevaData = await usuariosService.actualizarUltimoLogout(req.user)
-            console.log("nuevaData: ", nuevaData)
         }
     } catch (error) {
         //res.status(404)
