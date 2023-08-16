@@ -36,6 +36,7 @@ import Swal from 'sweetalert2';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 import Handlebars from "handlebars"
 import { PORT } from './config/serverConfig.js';
+import { jsonRouter } from './routers/jsonRouter/jsonRouter.js';
 
 await conectar()
 //conectar()
@@ -161,7 +162,8 @@ io.on('connection', async clientSocket => {
 
 //ACA IBA CHAT
 
-app.use('/', apiRouter)
+app.use('/api', apiRouter)
 //app.use(ErrorHandler)
 app.use('/', viewsRouter)
 app.use('/', docsRouter)
+app.use('/', jsonRouter)

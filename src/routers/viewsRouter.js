@@ -20,6 +20,7 @@ import { validacionHora } from '../utils/validacionHora.js';
 import { codificarHora, compararConHoraActual, decodificarHora } from '../utils/hora.js'
 import { esAdministrador } from '../utils/esAdministrador.js';
 import { verificarFecha } from '../utils/verificarFecha.js';
+import { autenticacionGithub, autenticacionGithub_CB } from '../middlewares/passport.js';
 
 export const viewsRouter = Router();
 
@@ -28,6 +29,16 @@ viewsRouter.use(express.urlencoded({extended: true}))
 
 viewsRouter.get('/', (req, res, next) => {
     res.redirect('/products')
+})
+
+//obtener todos los usuarios
+viewsRouter.get('/allUsers', async (req, res, next) => {
+    const usuarios = await usuariosService.obtenerTodosLosUsuarios()
+
+    res.render('usuarios', { 
+        pageTitle: "Usuarios",
+        usuarios
+    })
 })
 
 viewsRouter.get('/products', async (req,res, next) => {
@@ -355,6 +366,11 @@ viewsRouter.get('/chat', autenticacion, async (req,res) => {
         usuario
     })
 })
+
+//login con github
+viewsRouter.get('/github', autenticacionGithub)
+//apiRouter.get('/githubcallback', autenticacionGithub_CB)
+viewsRouter.get('/githubcallback', autenticacionGithub_CB, (req, res, next) => { res.redirect('/products')})
 
 viewsRouter.get('/mockingproducts', (req, res) => {
     const products = entregarProductosValidos()

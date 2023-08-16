@@ -37,20 +37,8 @@ export const apiRouter = Router();
 apiRouter.use(express.json())
 apiRouter.use(express.urlencoded({extended: true}))
 
-apiRouter.use('/', jsonRouter)
-
-//obtener todos los usuarios
-apiRouter.get('/api/users', async (req, res, next) => {
-    const usuarios = await usuariosService.obtenerTodosLosUsuarios()
-
-    res.render('usuarios', { 
-        pageTitle: "Usuarios",
-        usuarios
-    })
-})
-
 //login post
-apiRouter.post('/api/sesiones', postSessionsController)
+apiRouter.post('/sesiones', postSessionsController)
 //apiRouter.post('/api/sesiones', autenticacionUserPass, postSessionsController)
 // apiRouter.post('/api/sesiones', async (req, res, next) => {
 //     try {
@@ -75,7 +63,7 @@ apiRouter.post('/api/sesiones', postSessionsController)
 // })
 
 //register post
-apiRouter.post('/api/usuarios', postRegisterController)
+apiRouter.post('/usuarios', postRegisterController)
 // apiRouter.post('/api/usuarios', async (req, res, next) => {
 //     try {
 //         const nuevoUsuario = await usuariosService.registrar(req.body)
@@ -94,7 +82,7 @@ apiRouter.post('/api/usuarios', postRegisterController)
 // })
 
 //delete sesion
-apiRouter.delete('/api/sesiones', deleteCurrentSessionController)
+apiRouter.delete('/sesiones', deleteCurrentSessionController)
 // apiRouter.delete('/api/sesiones', async (req, res) => {
 //     //console.log("entre")
 //     winstonLogger.info("usuario a deslogear: "+req.user.email)
@@ -120,7 +108,7 @@ apiRouter.delete('/api/sesiones', deleteCurrentSessionController)
 // })
 
 //borrar producto
-apiRouter.get('/api/deleteProduct/:pid', async (req, res) => {
+apiRouter.get('/deleteProduct/:pid', async (req, res) => {
     try {
         const productoBorrado = await productService.borrarProducto(req.params.pid)
         res.redirect('/realtimeproducts')
@@ -130,7 +118,7 @@ apiRouter.get('/api/deleteProduct/:pid', async (req, res) => {
 })
 
 //agregar producto al carrito
-apiRouter.post('/api/addProductToCart/:pid', autenticacion, postProductToCart)
+apiRouter.post('/addProductToCart/:pid', autenticacion, postProductToCart)
 // apiRouter.post('/api/addProductToCart/:pid', autenticacion, async (req, res, next) => {
 //     try {
 //         console.log("llego el pid: ", req.params.pid)
@@ -142,7 +130,7 @@ apiRouter.post('/api/addProductToCart/:pid', autenticacion, postProductToCart)
 //     }
 // })
 
-apiRouter.post('/api/cambiarContrasenia/:uid', postCambiarContraController)
+apiRouter.post('/cambiarContrasenia/:uid', postCambiarContraController)
 // apiRouter.post('/api/cambiarContrasenia/:uid', async (req, res, next) => {
 //     try {
 //         const datos = req.body
@@ -188,7 +176,7 @@ apiRouter.post('/users/:uid/documents', extraerFoto, postDocumentsController)
 // })
 
 //borrar un usuario
-apiRouter.post('/api/eliminarUsuario/:uid', postEliminarUsuario) 
+apiRouter.post('/eliminarUsuario/:uid', postEliminarUsuario) 
 // apiRouter.post('/api/eliminarUsuario/:uid', async (req, res, next) => {
 //     try {
 //         const usuarioBorrado = await usuariosService.borrarUsuarioPorID(req.params.uid)
@@ -198,7 +186,7 @@ apiRouter.post('/api/eliminarUsuario/:uid', postEliminarUsuario)
 //     }
 // })
 
-apiRouter.post('/api/modificarRol/:uid', postModificarRol)
+apiRouter.post('/modificarRol/:uid', postModificarRol)
 // apiRouter.post('/api/modificarRol/:uid', async (req, res, next) => {
 //     try {
 //         const usuario = await usuariosService.buscarUsuarioPorID(req.params.uid)
@@ -236,10 +224,5 @@ apiRouter.post('/api/modificarRol/:uid', postModificarRol)
 //         res.sendStatus(404)
 //     }
 // })
-
-//login con github
-apiRouter.get('/github', autenticacionGithub)
-//apiRouter.get('/githubcallback', autenticacionGithub_CB)
-apiRouter.get('/githubcallback', autenticacionGithub_CB, (req, res, next) => { res.redirect('/products')})
 
 apiRouter.use(ErrorHandler)
