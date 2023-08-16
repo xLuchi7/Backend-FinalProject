@@ -73,7 +73,7 @@ passport.use('github', new GithubStrategy({
         }
         await usuarioModel.create(user)
     }else{
-        const actualizado = await usuariosService.actualizarUltimaConexionGithub(user)
+        user = await usuariosService.actualizarUltimaConexionGithub(user)
         console.log("actualizado: ", actualizado)
     }
     done(null, user)
