@@ -74,11 +74,25 @@ class usersManager{
         }
     }
     async actualizarUltimoLogout(usuario){
-        const currentDate = new Date()
-        const localTime = DateTime.fromJSDate(currentDate, { zone: 'local' })
-        console.log("localTime: ", localTime)
-        const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
-        console.log("formatDate: ", formatDate)
+        // const currentDate = new Date()
+        // const localTime = DateTime.fromJSDate(currentDate, { zone: 'local' })
+        // console.log("localTime: ", localTime)
+        // const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
+        // console.log("formatDate: ", formatDate)
+        // Get the current date and time in the user's local timezone
+        const userLocalDateTime = new Date();
+
+        // Format the date and time in a user-friendly way
+        const formattedDateTime = userLocalDateTime.toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        timeZoneName: 'short'
+        })
+
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
             last_name: usuario.last_name,
@@ -87,7 +101,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: formatDate,
+            last_connection: formattedDateTime,
             documents: usuario.documents
         })
         //
