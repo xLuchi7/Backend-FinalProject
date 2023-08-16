@@ -79,7 +79,7 @@ class usersManager{
         // console.log("localTime: ", localTime)
         // const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
         // console.log("formatDate: ", formatDate)
-        const currentDate = new Date()
+        const currentDate = Intl.DateTimeFormat().resolvedOptions().timeZone
         const localTime = DateTime.now().setZone(currentDate)
         const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
 
