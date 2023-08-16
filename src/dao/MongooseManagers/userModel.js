@@ -79,10 +79,11 @@ class usersManager{
         // console.log("localTime: ", localTime)
         // const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
         // console.log("formatDate: ", formatDate)
+        //INTENTE DE TODO PARA QUE SEA LA HORA LOCAL DEL USUARIO PERO NO PUDE
+        //ASI QUE LE RESTO 3HS PARA QUE SEA EL HORARIO ARGENTINO
         const date = new Date()
         date.setHours(date.getHours()-3)
         const dateToString = date.toLocaleString()
-        //fechaaLimite.setDate(fechaaLimite.getDate()-2)
 
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
@@ -144,12 +145,15 @@ class usersManager{
         // date.setHours(date.getHours()-3)
         // date.toLocaleString()
         // console.log("actualizada: ", date)
+        const date = new Date()
+        date.setHours(date.getHours()-3)
+        const dateToString = date.toLocaleString()
         const nuevoUsuario = {
             email: usuario.email,
             cartID: usuario.cartID,
             role: usuario.role,
             //last_connection: new Date().toLocaleString(),
-            last_connection: new Date().toLocaleTimeString(),
+            last_connection: dateToString,
             documents: usuario.documents
         }
         await this.#usersDB.updateOne(usuario, nuevoUsuario)

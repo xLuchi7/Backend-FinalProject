@@ -8,6 +8,9 @@ import { validarRol } from "../utils/rol.js"
 class UsuariosService{
     async registrar(datosUsuario){
         const id = await cartMongooseManager.createNewCart()
+        const date = new Date()
+        date.setHours(date.getHours()-3)
+        const dateToString = date.toLocaleString()
         let nuevoUsuario = new User({
             first_name: datosUsuario.first_name,
             last_name: datosUsuario.last_name,
@@ -16,7 +19,7 @@ class UsuariosService{
             password: hashear(datosUsuario.password),
             cartID: id,
             role: validarRol(datosUsuario.email),
-            last_connection: new Date().toLocaleTimeString(),
+            last_connection: dateToString,
             documents: undefined
         })
         await usuariosRepository.createUser(nuevoUsuario)

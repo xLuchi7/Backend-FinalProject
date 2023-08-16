@@ -62,11 +62,14 @@ passport.use('github', new GithubStrategy({
     console.log("usuario: ", user)
     if(user == null){
         const cartId = await cartMongooseManager.createNewCart()
+        const date = new Date()
+        date.setHours(date.getHours()-3)
+        const dateToString = date.toLocaleString()
         user = {
             email: profile.username,
             cartID: cartId,
             role: "user",
-            last_connection: new Date().toLocaleString(),
+            last_connection: dateToString,
         }
         await usuarioModel.create(user)
     }else{
