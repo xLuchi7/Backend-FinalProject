@@ -80,7 +80,8 @@ class usersManager{
         // const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
         // console.log("formatDate: ", formatDate)
         const date = new Date()
-        date.getHours(date.setHours()-3)
+        date.setHours(date.getHours()-3)
+        //fechaaLimite.setDate(fechaaLimite.getDate()-2)
 
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
