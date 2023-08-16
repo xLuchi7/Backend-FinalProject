@@ -48,7 +48,7 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     //store: MongoStore.create({mongoUrl: 'mongodb://127.0.0.1:27017/ecommerce'}),
-    store: MongoStore.create({mongoUrl: 'mongodb+srv://luciano:probando22@cluster0.r1ikgz0.mongodb.net/?retryWrites=true&w=majority&ssl=true'}),
+    store: MongoStore.create({mongoUrl: 'mongodb+srv://luciano:probando22@cluster0.r1ikgz0.mongodb.net/?retryWrites=true&w=majority'}),
 }))
 
 app.use(passportInitialize, passportSession)
