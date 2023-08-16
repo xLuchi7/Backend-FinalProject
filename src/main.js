@@ -35,6 +35,7 @@ import { docsRouter } from './routers/documentacionRouter.js';
 import Swal from 'sweetalert2';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 import Handlebars from "handlebars"
+import { PORT } from './config/serverConfig.js';
 
 await conectar()
 //conectar()
@@ -64,7 +65,9 @@ app.set('view engine', 'handlebars')
 app.use(express.static('./public'))
 app.use('/', express.static('./static/images'))
 
-export const server = app.listen(8080);
+export const server = app.listen(PORT, () => {
+    console.log(`servidor escuchando en puerto ${PORT}`)
+});
 
 const io = new SocketIOServer(server)
 
