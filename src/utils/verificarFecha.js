@@ -14,6 +14,7 @@ export function verificarFecha(usuario){
         console.log("este tiene q ser borrado")
         return true
         //return false
+        
     }else{
         console.log("este NO tiene q ser borrado")
         return false
