@@ -73,6 +73,9 @@ class usersManager{
         }
     }
     async actualizarUltimoLogout(usuario){
+        const date = new Date()
+        date.getHours(date.setHours()-3)
+        date.toLocaleString()
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
             last_name: usuario.last_name,
@@ -81,7 +84,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: new Date().toLocaleTimeString(),
+            last_connection: date,
             documents: usuario.documents
         })
         await this.#usersDB.updateOne(usuario, nuevoUsuario)
