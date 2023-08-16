@@ -148,11 +148,11 @@ class usersManager{
         const date = new Date()
         date.setHours(date.getHours()-3)
         const dateToString = date.toLocaleString()
+        
         const nuevoUsuario = {
             email: usuario.email,
             cartID: usuario.cartID,
             role: usuario.role,
-            //last_connection: new Date().toLocaleString(),
             last_connection: dateToString,
             documents: usuario.documents
         }
