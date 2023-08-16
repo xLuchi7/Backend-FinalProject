@@ -194,7 +194,8 @@ viewsRouter.get('/mailEnviado', async (req, res) => {
         const hora = new Date()
         console.log("hora: ", hora)
         const horaCodificada = codificarHora(hora)
-        await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}/${horaCodificada}`)
+        //await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}/${horaCodificada}`)
+        await emailService.sendMail(mail, `https://1ra-entrega-proyecto-final-production.up.railway.app/cambiarContrasenia/${id}/${horaCodificada}`)
         res.render('mailEnviadoRestablecer', { 
             pageTitle: "Restablecer Contraseña",
             email: mail
@@ -221,7 +222,8 @@ viewsRouter.get('/enviarEmailSinLogin/:email', async (req, res) => {
         const hora = new Date()
         console.log("hora: ", hora)
         const horaCodificada = codificarHora(hora)
-        await emailService.sendMail(usuario.email, `http://localhost:8080/cambiarContrasenia/${usuario._id}/${horaCodificada}`)
+        //await emailService.sendMail(usuario.email, `http://localhost:8080/cambiarContrasenia/${usuario._id}/${horaCodificada}`)
+        await emailService.sendMail(usuario.email, `https://1ra-entrega-proyecto-final-production.up.railway.app/cambiarContrasenia/${usuario._id}/${horaCodificada}`)
         res.sendStatus(200)
         //alert("Se envio un mail a:"+ req.params.email +"para restablecer la contraseña")
     }
