@@ -5,7 +5,7 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "node .",
+    "start": "node src/main.js",
     "test": "nodemon -e 'js, html' ."
   },
   "keywords": [],
