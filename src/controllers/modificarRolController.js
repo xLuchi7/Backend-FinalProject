@@ -12,7 +12,7 @@ export async function postModificarRol(req, res, next) {
                 age: usuario.age,
                 password: usuario.password,
                 cartID: usuario.cartID,
-                role: "Premium",
+                role: "premium",
                 last_connection: usuario.last_connection,
                 documents: usuario.documents
             }
