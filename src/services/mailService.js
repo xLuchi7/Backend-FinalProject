@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer";
-import { winstonLogger } from "../utils/winstonLogger";
+import { winstonLogger } from "../utils/winstonLogger.js";
 
 const CREDENCIALES_MAIL = {
     user: 'sessaregoluchi7@gmail.com',
