@@ -74,6 +74,9 @@ viewsRouter.get('/products/product/:pid', async (req, res, next) => {
             if(req.user.role == "user"){
                 usuario = true
             }
+            if(req.user.role == "premium"){
+                usuario = true
+            }
         }
         res.render('oneProduct', {
             pageTitle: 'Product',
