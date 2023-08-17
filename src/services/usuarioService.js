@@ -9,8 +9,8 @@ class UsuariosService{
     async registrar(datosUsuario){
         const id = await cartMongooseManager.createNewCart()
         const date = new Date()
-        date.setHours(date.getHours()-3)
-        const dateToString = date.toLocaleString()
+        //date.setHours(date.getHours()-3)
+        //const dateToString = date.toLocaleString()
         let nuevoUsuario = new User({
             first_name: datosUsuario.first_name,
             last_name: datosUsuario.last_name,
@@ -19,7 +19,7 @@ class UsuariosService{
             password: hashear(datosUsuario.password),
             cartID: id,
             role: validarRol(datosUsuario.email),
-            last_connection: dateToString,
+            last_connection: date,
             documents: undefined
         })
         await usuariosRepository.createUser(nuevoUsuario)
