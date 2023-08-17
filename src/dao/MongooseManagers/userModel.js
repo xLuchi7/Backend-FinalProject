@@ -147,13 +147,13 @@ class usersManager{
         // console.log("actualizada: ", date)
         const date = new Date()
         date.setHours(date.getHours()-3)
-        const dateToString = date.toLocaleString()
+        //const dateToString = date.toLocaleString()
         
         const nuevoUsuario = {
             email: usuario.email,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: dateToString,
+            last_connection: date,
             documents: usuario.documents
         }
         await this.#usersDB.updateOne(usuario, nuevoUsuario)
