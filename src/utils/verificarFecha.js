@@ -10,9 +10,11 @@ export function verificarFecha(usuario){
     const fechaConvertida = usuario.last_connection
     //fechaConvertida.setHours(fechaConvertida.getHours()-3)
     //const fechaConvertida = usuario.last_connection
+    const fechaParseada = new Date(fechaConvertida)
+    console.log("fecha parseada" , fechaParseada)
 
     console.log("convertida: ", fechaConvertida)
-    if(fechaaLimite >  fechaConvertida){
+    if(fechaaLimite <  fechaConvertida){
         console.log("este tiene q ser borrado")
         //return true
         return false
