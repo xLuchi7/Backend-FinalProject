@@ -14,7 +14,7 @@ export function verificarFecha(usuario){
     console.log("fecha parseada" , fechaParseada)
 
     console.log("convertida: ", fechaConvertida)
-    if(fechaaLimite <  fechaConvertida){
+    if(fechaaLimite <  fechaParseada){
         console.log("este tiene q ser borrado")
         //return true
         return false
