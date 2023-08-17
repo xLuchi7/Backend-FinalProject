@@ -9,7 +9,7 @@ class UsuariosService{
     async registrar(datosUsuario){
         const id = await cartMongooseManager.createNewCart()
         const date = new Date()
-        //date.setHours(date.getHours()-3)
+        date.setHours(date.getHours()-3)
         //const dateToString = date.toLocaleString()
         let nuevoUsuario = new User({
             first_name: datosUsuario.first_name,

@@ -7,8 +7,8 @@ export function verificarFecha(usuario){
     console.log("limite: ", fechaaLimite)
     ///////////
     console.log("UT: ", usuario.last_connection)
-    const fechaConvertida = new Date(usuario.last_connection)
-    fechaConvertida.setHours(fechaConvertida.getHours()-3)
+    const fechaConvertida = usuario.last_connection
+    //fechaConvertida.setHours(fechaConvertida.getHours()-3)
     //const fechaConvertida = usuario.last_connection
 
     console.log("convertida: ", fechaConvertida)

@@ -83,7 +83,7 @@ class usersManager{
         //ASI QUE LE RESTO 3HS PARA QUE SEA EL HORARIO ARGENTINO
         const date = new Date()
         date.setHours(date.getHours()-3)
-        const dateToString = date.toLocaleString()
+        //const dateToString = date.toLocaleString()
 
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
@@ -93,7 +93,7 @@ class usersManager{
             password: usuario.password,
             cartID: usuario.cartID,
             role: usuario.role,
-            last_connection: dateToString,
+            last_connection: date,
             documents: usuario.documents
         })
         //
