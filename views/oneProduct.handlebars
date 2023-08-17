@@ -10,7 +10,6 @@
 <div id="myElement" data-id="{{product._id}}" ></div>
 
 {{#if usuario}}
-    {{!-- <button><a href="/carrito/{{user.cartID}}/producto/{{product._id}}">Agregar al carrito</a></button><br><br> --}}
     <button id="addToCart">Agregar al Carrito</button><br><br>
     <script>
         let id
@@ -20,23 +19,17 @@
         })
         const btnAddToCart = document.getElementById("addToCart")
         btnAddToCart.onclick = async () =>{
-            console.log("id: ", id)
             const response  = await fetch(`/api/addProductToCart/${id}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                //body: JSON.stringify(datos)
             })
-            console.log("respuesta: ", response)
             if (response.status == 200) {
                 alert("se agrego el producto al carrito")
-                console.log("se agrego al carro")
-                //window.location.href = `/mailEnviadoSinLogin/${datos}`
             } else {
                 alert("Error al agregar el producto al carrito")
-                console.log("NO se agrego al carro")
             }
         }
     </script>

@@ -1,4 +1,5 @@
 import { createTransport } from "nodemailer";
+import { winstonLogger } from "../utils/winstonLogger";
 
 const CREDENCIALES_MAIL = {
     user: 'sessaregoluchi7@gmail.com',
@@ -25,10 +26,9 @@ class EmailService{
         }
         try {
             const info = await this.#clientNodemailer.sendMail(mailConfig)
-            console.log("se mando el mail")
             return info
         } catch (error) {
-            console.log(error)
+            winstonLogger.info("error al mandar el mail a: ", destinatario)
         }
     }
 }

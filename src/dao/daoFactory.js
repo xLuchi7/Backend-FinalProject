@@ -1,6 +1,5 @@
 import { TIPO_PERSISTENCIA } from "../config/dbConfig.js";
 import { TicketsManager } from "./MongooseManagers/TicketManager.js";
-import { usuarioModel } from "./MongooseManagers/userModel.js";
 
 let cartDao
 let mensajesDao
@@ -12,12 +11,10 @@ if(TIPO_PERSISTENCIA == 'mongoose'){
     const { cartMongooseManager } = await import('../dao/MongooseManagers/CartManager.js')
     const { MessagesMongooseManager } = await import('../dao/MongooseManagers/MensajesManager.js')
     const { ProductMongooseManager } = await import('../dao/MongooseManagers/ProductMongooseManager.js')
-    //const { usuarioModel } = await import('./MongooseManagers/userModel.js')
     const { UsersMongooseManager } = await import('./MongooseManagers/userModel.js')
     cartDao = cartMongooseManager
     mensajesDao = MessagesMongooseManager
     productsDao = ProductMongooseManager
-    //usuarioDao = usuarioModel
     usuarioDao = UsersMongooseManager
     ticketDao = TicketsManager
 }else{

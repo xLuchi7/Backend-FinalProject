@@ -29,16 +29,8 @@ if (formLogin instanceof HTMLFormElement) {
                 alert("Se inicio sesion existosamente")
                 window.location.href = '/products'
             } else {
-                console.log(response)
                 alert("Credenciales Invalidas")
             }
-            // if (response == 201) {
-            //     alert("login BIEN")
-            //     window.location.href = '/products'
-            // }else{
-            //     alert("login MAL")
-            //     console.log("fallo el login")
-            // }
         }
     })
 }

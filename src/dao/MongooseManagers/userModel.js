@@ -31,10 +31,7 @@ class usersManager{
     }
 
     async cambiarContra(contra, id){
-        //const user = await this.#usersDB.findById(id).lean()
-        console.log("aaa: ", id)
         const userViejo = await this.#usersDB.findById(id).lean()
-        console.log("usuario: ", userViejo)
         let newUser
         if (userViejo) {
             newUser = new User({
@@ -48,11 +45,9 @@ class usersManager{
                 last_connection: userViejo.last_connection,
                 documents: userViejo.documents
             })
-            console.log("Nuevo usuario: ", newUser)
             if(newUser.password == userViejo.password){
                 throw new Error("No podes ingresar tu contraseña actual")
             }else{
-                //console.log("Nuevo usuario: ", newUser)
                 await this.#usersDB.updateOne(userViejo, newUser)
             }
         }else{
@@ -74,16 +69,8 @@ class usersManager{
         }
     }
     async actualizarUltimoLogout(usuario){
-        // const currentDate = new Date()
-        // const localTime = DateTime.fromJSDate(currentDate, { zone: 'local' })
-        // console.log("localTime: ", localTime)
-        // const formatDate = localTime.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
-        // console.log("formatDate: ", formatDate)
-        //INTENTE DE TODO PARA QUE SEA LA HORA LOCAL DEL USUARIO PERO NO PUDE
-        //ASI QUE LE RESTO 3HS PARA QUE SEA EL HORARIO ARGENTINO
         const date = new Date()
         date.setHours(date.getHours()-3)
-        //const dateToString = date.toLocaleString()
 
         const nuevoUsuario = new User({
             first_name: usuario.first_name,
@@ -96,7 +83,6 @@ class usersManager{
             last_connection: date,
             documents: usuario.documents
         })
-        //
         await this.#usersDB.updateOne(usuario, nuevoUsuario)
         return nuevoUsuario
     }
@@ -131,23 +117,15 @@ class usersManager{
     }
     async buscarUsuarioPorID(id){
         const usuario = await this.#usersDB.findById(id).lean()
-        console.log("fallo: ", usuario)
         return usuario
     }
     async modificarRol(usuarioViejo, usuarioActualizado){
         const usuario = await this.#usersDB.updateOne(usuarioViejo, usuarioActualizado).lean()
-        console.log("adentro del model: ", usuario)
         return usuario
     }
     async actualizarUltimaConexionGithub(usuario){
-        // const date = new Date()
-        // console.log("date: ", date)
-        // date.setHours(date.getHours()-3)
-        // date.toLocaleString()
-        // console.log("actualizada: ", date)
         const date = new Date()
         date.setHours(date.getHours()-3)
-        //const dateToString = date.toLocaleString()
         
         const nuevoUsuario = {
             email: usuario.email,

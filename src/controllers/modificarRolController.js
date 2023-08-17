@@ -31,7 +31,6 @@ export async function postModificarRol(req, res, next) {
         }
         
         await usuariosService.modificarRol(usuario, usuarioActualizado)
-        //console.log("usuario modificado: ", usuarioModificado)
         res.sendStatus(200)
     } catch (error) {
         res.sendStatus(404)

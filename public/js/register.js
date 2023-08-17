@@ -24,7 +24,6 @@ if (form instanceof HTMLFormElement) {
                 age: input_age.value,
                 password: input_password.value,
             }
-            //const response = await fetch('/api/usuarios', {
             const response = await fetch('/api/usuarios', {
                 method: 'POST',
                 headers: {
@@ -39,7 +38,6 @@ if (form instanceof HTMLFormElement) {
                 alert("Se registro exitosamente")
                 window.location.href = '/profile'
             } else {
-                console.log(response)
                 alert("Error al registrarse, Ingrese datos validos")
             }
         }

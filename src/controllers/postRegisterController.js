@@ -5,11 +5,6 @@ export async function postRegisterController(req, res, next) {
     try {
         const nuevoUsuario = await usuariosService.registrar(req.body)
         req.logIn(nuevoUsuario, error => {
-            // if(error){
-            //     next(new Error("error al registrarse"))
-            // }else{
-            //     res.status(201).json(req.user)
-            // }
             res.status(201).json(req.user)
         })
     } catch (error) {

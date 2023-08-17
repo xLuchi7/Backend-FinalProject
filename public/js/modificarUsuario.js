@@ -13,9 +13,7 @@ btnCambiar.onclick = async () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      //body: JSON.stringify(datosUsuario)
     })
-    console.log("status: ", status)
     if (status == 200) {
       alert("Se modifico correctamente el rol")
       window.location.href = `/modificarUsuario/${idUsuario}`
@@ -33,9 +31,7 @@ btnEliminar.onclick = async () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      //body: JSON.stringify(datosUsuario)
     })
-    console.log("status: ", status)
     if (status == 200) {
       alert("Se elimino correctamente el usuario")
       window.location.href = '/profile'

@@ -1,5 +1,3 @@
-//import { winstonLogger } from "../../src/utils/winstonLogger.js"
-
 const formLogout = document.querySelector('#formLogout')
 
 if (formLogout instanceof HTMLFormElement) {
@@ -14,8 +12,7 @@ if (formLogout instanceof HTMLFormElement) {
         alert("se cerro sesion exitosamente")
         window.location.href = '/login'
       } else {
-        console.log("error en el logout "+ status)
-        //winstonLogger.error("Error en el logout "+ status)
+        alert("error al cerrar la sesion")
       }
     })
 }
@@ -29,6 +26,5 @@ restablecerClick.onclick = async () => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    //body: JSON.stringify(datosUsuario)
   })
 }

@@ -1,5 +1,3 @@
-import fs from 'fs/promises';
-import { randomUUID } from 'crypto';
 import { Cart } from '../../models/entidades/Cart.js';
 import mongoose from "mongoose";
 import { Schema, model } from 'mongoose';

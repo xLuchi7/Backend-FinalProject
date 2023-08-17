@@ -31,7 +31,6 @@ viewsRouter.get('/', (req, res, next) => {
     res.redirect('/products')
 })
 
-//obtener todos los usuarios
 viewsRouter.get('/allUsers', async (req, res, next) => {
     const usuarios = await usuariosService.obtenerTodosLosUsuarios()
 
@@ -87,38 +86,11 @@ viewsRouter.get('/products/product/:pid', async (req, res, next) => {
     }
 })
 
-// viewsRouter.get('/carrito/:cid/producto/:pid', autenticacion, async (req, res) => { 
-//     //agregar producto al carrito
-//     const product = await productService.obtenerUnProducto(req.params.pid)
-//     const cart = await cartService.agregarProductoACarrito(req.params.cid, req.params.pid)
-//     let usuario
-//     if(req.user.role == "user"){
-//         usuario = true
-//     }else{
-//         usuario = false
-//     }
-//     res.render('oneProduct', {
-//         pageTitle: 'Product',
-//         product,
-//         user: req.user,
-//         usuario
-//     })
-// })
-
 viewsRouter.get('/cart/product/:pid', autenticacion,  async (req, res) => { 
     const productoEliminar = await cartService.borrarProductoDelCarrito(req.user.cartID, req.params.pid)
-    //console.log("id de producto a elimiar: ", req.params.pid)
-   // console.log("cart id: ", req.user.cartID)
     const productos = await cartService.obtenerProductosDeCarrito(req.user.cartID)
     const total = await cartService.obtenerTotal(productos)
     res.redirect("/cart")
-
-    // res.render('cart', { 
-    //     pageTitle: "Carrito",
-    //     user: req.user,
-    //     productos,
-    //     total
-    // })
 })
 
 viewsRouter.get('/cart', autenticacion, async (req, res) => {
@@ -131,7 +103,6 @@ viewsRouter.get('/cart', autenticacion, async (req, res) => {
         productos,
         total
     })
-    //yaLogueado(req, res, req.user)
 })
 
 viewsRouter.get('/:cid/purchase', async (req, res) => {
@@ -163,8 +134,6 @@ viewsRouter.get('/register', (req, res) => {
 })
 
 viewsRouter.get('/profile', autenticacion, (req, res, next) => {
-    //const date = req.user.last_connection.toFormat("yyyy-MM-dd hh:mm:ss a ZZZZ")
-    //console.log("date: ", date)
     res.render('profile', { 
         pageTitle: "Perfil", user: req.user
     })
@@ -185,16 +154,8 @@ viewsRouter.get('/ingresarMail', async (req, res) => {
 viewsRouter.get('/mailEnviado', async (req, res) => {
     if(req.user){
         const mail = req.user.email
-        // const numero= Math.floor(Math.random() * 1000000)
-        // const numeroRandom = String(numero).padStart(6, "0")
-        // const string = "Los digitos son: "+ numeroRandom
-        // console.log(string)
-        //await emailService.sendMail("sessaregoluchi@gmail.com", string)
-        //const id = req.user._id
         const id = await usuariosService.buscarIdDeUsuario(req.user)
-        console.log("el id es: ", id)
         const hora = new Date()
-        console.log("hora: ", hora)
         const horaCodificada = codificarHora(hora)
         //await emailService.sendMail(mail, `http://localhost:8080/cambiarContrasenia/${id}/${horaCodificada}`)
         await emailService.sendMail(mail, `https://1ra-entrega-proyecto-final-production.up.railway.app/cambiarContrasenia/${id}/${horaCodificada}`)
@@ -203,7 +164,6 @@ viewsRouter.get('/mailEnviado', async (req, res) => {
             email: mail
         })
     }else{
-        console.log("llego el mail: ", req.body)
         res.render('mailEnviadoRestablecer', { 
             pageTitle: "Restablecer Contraseña",
             email: req.body
@@ -212,44 +172,21 @@ viewsRouter.get('/mailEnviado', async (req, res) => {
 })
 
 viewsRouter.get('/enviarEmailSinLogin/:email', async (req, res) => {
-    console.log("llego el mail: ", req.params.email)
     const usuario = await usuariosService.existeEmail(req.params.email)
-    console.log("usuario completo: ", usuario)
     if(usuario == false){
-       // alert("No se encontro ese email")
         res.sendStatus(404)
     }else{
-        //const id = await usuariosService.buscarIdDeUsuario(usuario)
-        //console.log("el id es: ", usuario._id)
         const hora = new Date()
-        console.log("hora: ", hora)
         const horaCodificada = codificarHora(hora)
         //await emailService.sendMail(usuario.email, `http://localhost:8080/cambiarContrasenia/${usuario._id}/${horaCodificada}`)
         await emailService.sendMail(usuario.email, `https://1ra-entrega-proyecto-final-production.up.railway.app/cambiarContrasenia/${usuario._id}/${horaCodificada}`)
         res.sendStatus(200)
-        //alert("Se envio un mail a:"+ req.params.email +"para restablecer la contraseña")
-    }
-    //res.sendStatus(200)
-
-    // res.render('mailEnviadoRestablecer', { 
-    //     pageTitle: "Restablecer Contraseña",
-    //     email: req.params.email
-    // })      
+    }     
 })
 
-// viewsRouter.get('/cambiarContrasenia/:uid', validacionHora, async (req, res) => {
-//     console.log("necesito: ", req.params.uid)
-
-//     res.render('contraNueva', { 
-//         pageTitle: "Cambio De Contraseña",
-//         idMandado: req.params.uid
-//     })
-// })
 viewsRouter.get('/cambiarContrasenia/:uid/:hora', async (req, res, next) => {
     const horaDecodificada = decodificarHora(parseInt(req.params.hora))
-    console.log("decodificada:", horaDecodificada)
     const esHoraValida = compararConHoraActual(parseInt(req.params.hora))
-    console.log("es valida: ", esHoraValida)
     res.render('contraNueva', { 
         pageTitle: "Cambio De Contraseña",
         idMandado: req.params.uid,
@@ -267,7 +204,6 @@ viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
     }
     if(req.user.role == "premium"){
         premium = true
-        //admin = true
     }
     const idUsuario = await usuariosService.buscarIdDeUsuario(req.user)
     let productosDelOwner = []
@@ -280,7 +216,6 @@ viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
                 cont++
             }
         }
-        console.log("productos q le pertenecen: ", productosDelOwner)
     }
 
     res.render('realtimeproducts', { 
@@ -294,20 +229,6 @@ viewsRouter.get('/realtimeproducts', autenticacion, async (req,res) => {
 })
 
 viewsRouter.get('/modificarUsuario/:uid', esAdministrador, async (req, res, next) => { 
-
-    // const usuario = await usuariosService.buscarUsuarioPorID(req.params.uid)
-    // let esUsuario = false
-    // if(usuario.role == "user"){
-    //     esUsuario = true
-    // }
-    // const idUsuario = await usuariosService.buscarIdDeUsuario(usuario)
-        
-    // res.render('modificarUsuario', { 
-    //     pageTitle: 'Modificar Usuario',
-    //     user: usuario,
-    //     esUsuario,
-    //     idUsuario
-    // })
     try {
         const usuario = await usuariosService.buscarUsuarioPorID(req.params.uid)
         
@@ -340,13 +261,8 @@ viewsRouter.get('/borrarUsuarios', esAdministrador, async (req, res, next) => {
         if(aBorrar == true){
             await emailService.sendMail(usuarios[i].email, "Se elimino su cuenta debeido a la inactividad por mas de 2 dias.")
             usuariosBorrados[cont] =  await usuariosService.borrarUsuarioPorID(usuarios[i]._id)
-            //usuariosBorrados[cont] = usuarios[i]
             cont++
         }
-    }
-    console.log("usuarios a borrar: ")
-    for (let i = 0; i < usuariosBorrados.length; i++) {
-        console.log(usuariosBorrados[i])
     }
 
     res.render('usuariosBorrados', { 
@@ -373,7 +289,6 @@ viewsRouter.get('/chat', autenticacion, async (req,res) => {
 
 //login con github
 viewsRouter.get('/github', autenticacionGithub)
-//apiRouter.get('/githubcallback', autenticacionGithub_CB)
 viewsRouter.get('/githubcallback', autenticacionGithub_CB, (req, res, next) => { res.redirect('/products')})
 
 viewsRouter.get('/mockingproducts', (req, res) => {

@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function(){
     let element = document.getElementById('myElement');
     idUsado = element.getAttribute('data-id');
 })
-console.log("idUsado: ", idUsado)
 
 let esHoraValida
 document.addEventListener('DOMContentLoaded', function(){
@@ -21,7 +20,6 @@ if(esHoraValida == true){
 const formNueva = document.getElementById("formNuevaC")
 
 if (formNueva instanceof HTMLFormElement) {
-    console.log("idUsado despues: ", idUsado)
     formNueva.addEventListener('submit', async event => {
         event.preventDefault()
 
@@ -52,7 +50,6 @@ if (formNueva instanceof HTMLFormElement) {
                 window.location.href = '/profile'
             } else {
                 alert("error al cambiar la contraseña")
-                //winstonLogger.error("Error en el logout "+ status)
             }
         }
     })

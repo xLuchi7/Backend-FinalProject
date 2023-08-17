@@ -20,12 +20,6 @@ if (formDigitos instanceof HTMLFormElement) {
                 },
                 body: JSON.stringify(digitos)
             })
-            //window.location.href = '/products'
-            // if (status === 201) {
-            //     window.location.href = '/products'
-            // } else{
-            //     console.log('[login] estado inesperado: ' + status)
-            // }
         }
     })
 }

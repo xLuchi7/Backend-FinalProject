@@ -18,14 +18,12 @@ class CartService{
     async obtenerProductosDeCarrito(cid){
         const carrito = await cartService.obtenerCarrito(cid)
         let productos = []
-        //let total = 0
         for (let i = 0; i < carrito.products.length; i++) {
             productos[i] = await productRepository.obtenerSegunId(carrito.products[i]._id) 
             productos[i] = {
                 ...productos[i],
                 quantity: carrito.products[i].quantity
             }
-            //total = total + (productos[i].price * productos[i].quantity)
         }
         return productos
     }
@@ -37,7 +35,6 @@ class CartService{
         return total
     }
     async aprobarCompra(productos, cid){
-        //let productosDB = await productRepository.obtenerTodos()
         let productosComprados = []
         for (let i = 0; i < productos.length; i++) {
             let prodActual = await productRepository.obtenerSegunId(productos[i]._id)

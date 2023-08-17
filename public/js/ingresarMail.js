@@ -16,11 +16,9 @@ if (mail instanceof HTMLFormElement) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                //body: JSON.stringify(datos)
             })
             if (status === 200) {
                 alert("Se envio un mail a: "+ datos +" para restablecer la contraseña")
-                //window.location.href = `/mailEnviadoSinLogin/${datos}`
             } else {
                 alert("No se encontro ese email")
             }

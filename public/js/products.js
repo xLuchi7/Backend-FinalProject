@@ -11,10 +11,3 @@ const plantillaProducts = `
 <a href="/?limit={{limit}}&page={{nextPage}}">Next</a>
 `
 const armarHtmlProdcuts = Handlebars.compile(plantillaProducts)
-
-serverSocket.on("productos", products => {
-//    const divProducts =  document.querySelector("#products")
-//    if (divProducts) {
-//         divProducts.innerHTML = armarHtmlProdcuts({products})
-//    }
-})

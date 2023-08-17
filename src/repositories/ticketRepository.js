@@ -7,7 +7,6 @@ class TicketsRepository{
     }
 
     async crearTicket(datos){
-        //const ticket = new Ticket(datos)
         return await this.dao.crearTicket(datos)
     }
 }

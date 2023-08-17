@@ -58,8 +58,6 @@ if (btnCargar) {
                     stock: inputStock.value,
                     owner: idUsuario
                 }
-                console.log("producto: ", product)
-                //serverSocket.emit('nuevoProducto', product)
                 serverSocket.emit('nuevoProducto', product, (response) => {
                     if(response.success){
                         Swal.fire({
@@ -67,7 +65,6 @@ if (btnCargar) {
                             title: 'Success',
                             text: 'Se creo exitosamente el producto'
                         })
-                        //serverSocket.on("actualizarProductos")
                         window.location.href = '/realtimeproducts'
                     }else{
                         Swal.fire({
